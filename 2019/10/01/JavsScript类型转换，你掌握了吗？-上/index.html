@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="众所周知，JavaScript 是一门脚本语言。相比较 C、Java等强类型语言在代码编写时便可确定变量类型，且编译阶段有编译器进行检查和优化，而JavaScript 中的变量是只有在运行阶段才能确定类型。其中在某些情况下，如判断变量是否相等，会存在隐式类型转换，导致预期之外的结果出现。所以，我们有必要弄清楚类型转换的规则，减少 bug 的出现，提高编程“幸福感” 🥰。 先挖个坑给出题目：你能说">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hell">
+<meta property="og:title" content="JavsScript类型转换，你掌握了吗？(上)">
 <meta property="og:url" content="http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/index.html">
 <meta property="og:site_name" content="HXJ&#39;s Blog">
 <meta property="og:description" content="众所周知，JavaScript 是一门脚本语言。相比较 C、Java等强类型语言在代码编写时便可确定变量类型，且编译阶段有编译器进行检查和优化，而JavaScript 中的变量是只有在运行阶段才能确定类型。其中在某些情况下，如判断变量是否相等，会存在隐式类型转换，导致预期之外的结果出现。所以，我们有必要弄清楚类型转换的规则，减少 bug 的出现，提高编程“幸福感” 🥰。 先挖个坑给出题目：你能说">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-03T07:00:49.847Z">
+<meta property="og:updated_time" content="2019-10-03T07:06:34.979Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hell">
+<meta name="twitter:title" content="JavsScript类型转换，你掌握了吗？(上)">
 <meta name="twitter:description" content="众所周知，JavaScript 是一门脚本语言。相比较 C、Java等强类型语言在代码编写时便可确定变量类型，且编译阶段有编译器进行检查和优化，而JavaScript 中的变量是只有在运行阶段才能确定类型。其中在某些情况下，如判断变量是否相等，会存在隐式类型转换，导致预期之外的结果出现。所以，我们有必要弄清楚类型转换的规则，减少 bug 的出现，提高编程“幸福感” 🥰。 先挖个坑给出题目：你能说">
     
     
@@ -36,7 +36,7 @@
         
     
     <!-- title -->
-    <title>hell</title>
+    <title>JavsScript类型转换，你掌握了吗？(上)</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -85,15 +85,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&text=hell"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=hell"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&is_video=false&description=hell"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=hell&body=Check out this article: http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=hell"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=hell"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=hell"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=hell"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&name=hell&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&text=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&is_video=false&description=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JavsScript类型转换，你掌握了吗？(上)&body=Check out this article: http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&name=JavsScript类型转换，你掌握了吗？(上)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -110,7 +110,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        hell
+        JavsScript类型转换，你掌握了吗？(上)
     </h1>
 
 
@@ -281,15 +281,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&text=hell"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=hell"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&is_video=false&description=hell"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=hell&body=Check out this article: http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=hell"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=hell"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=hell"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=hell"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&name=hell&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&text=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&is_video=false&description=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JavsScript类型转换，你掌握了吗？(上)&body=Check out this article: http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&title=JavsScript类型转换，你掌握了吗？(上)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/10/01/JavsScript类型转换，你掌握了吗？-上/&name=JavsScript类型转换，你掌握了吗？(上)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
