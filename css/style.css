@@ -345,7 +345,7 @@ body h3 {
   color: #eee;
   text-decoration: underline;
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 1.3rem;
 }
 body h4,
 body h5,
@@ -1554,10 +1554,10 @@ pre code {
   border: none;
 }
 code {
-  padding: 0 5px;
-  border: 1px dotted #666;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
+  margin: 0 2px;
+  padding: 0 3px;
+  color: #c7254e;
+  background-color: #f9f2f4;
 }
 .highlight {
   overflow-x: auto;
