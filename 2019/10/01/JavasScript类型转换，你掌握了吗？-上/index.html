@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="众所周知，JavaScript 是一门脚本语言。相比较 C、Java等强类型语言在代码编写时便可确定变量类型，且编译阶段有编译器进行检查和优化，而JavaScript 中的变量是只有在运行阶段才能确定类型。其中在某些情况下，如判断变量是否相等，会存在隐式类型转换，导致预期之外的结果出现。所以，我们有必要弄清楚类型转换的规则，减少 bug 的出现，提高编程“幸福感” 🥰。 先挖个坑给出题目：你能说">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavasScript类型转换，你掌握了吗？-上">
+<meta property="og:url" content="http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/index.html">
+<meta property="og:site_name" content="HXJ&#39;s Blog">
+<meta property="og:description" content="众所周知，JavaScript 是一门脚本语言。相比较 C、Java等强类型语言在代码编写时便可确定变量类型，且编译阶段有编译器进行检查和优化，而JavaScript 中的变量是只有在运行阶段才能确定类型。其中在某些情况下，如判断变量是否相等，会存在隐式类型转换，导致预期之外的结果出现。所以，我们有必要弄清楚类型转换的规则，减少 bug 的出现，提高编程“幸福感” 🥰。 先挖个坑给出题目：你能说">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-04T06:13:08.175Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavasScript类型转换，你掌握了吗？-上">
+<meta name="twitter:description" content="众所周知，JavaScript 是一门脚本语言。相比较 C、Java等强类型语言在代码编写时便可确定变量类型，且编译阶段有编译器进行检查和优化，而JavaScript 中的变量是只有在运行阶段才能确定类型。其中在某些情况下，如判断变量是否相等，会存在隐式类型转换，导致预期之外的结果出现。所以，我们有必要弄清楚类型转换的规则，减少 bug 的出现，提高编程“幸福感” 🥰。 先挖个坑给出题目：你能说">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>JavasScript类型转换，你掌握了吗？-上</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/10/04/JavasScript类型转换，你掌握了吗？-下/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&text=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&title=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&is_video=false&description=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JavasScript类型转换，你掌握了吗？-上&body=Check out this article: http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&title=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&title=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&title=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&title=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&name=JavasScript类型转换，你掌握了吗？-上&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#先挖个坑"><span class="toc-number">1.</span> <span class="toc-text">先挖个坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-number">2.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#基本数据类型"><span class="toc-number">2.0.1.</span> <span class="toc-text">基本数据类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#引用数据类型"><span class="toc-number">2.0.2.</span> <span class="toc-text">引用数据类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换规则"><span class="toc-number">3.</span> <span class="toc-text">转换规则</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#一、-转换形式"><span class="toc-number">3.0.1.</span> <span class="toc-text">一、 转换形式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#二、转换基础"><span class="toc-number">3.0.2.</span> <span class="toc-text">二、转换基础</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#三、转换结果"><span class="toc-number">3.0.3.</span> <span class="toc-text">三、转换结果</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#举个例子"><span class="toc-number">4.</span> <span class="toc-text">举个例子</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#例子一：-？"><span class="toc-number">4.0.1.</span> <span class="toc-text">例子一：{} + {} = ？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#例子二：1-2-3-4"><span class="toc-number">4.0.2.</span> <span class="toc-text">例子二：1 + [2, 3, 4] = ?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JavasScript类型转换，你掌握了吗？-上
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">HXJ's Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-10-01T04:53:04.000Z" itemprop="datePublished">2019-10-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>众所周知，JavaScript 是一门脚本语言。相比较 C、Java等强类型语言在代码编写时便可确定变量类型，且编译阶段有编译器进行检查和优化，而JavaScript 中的变量是只有在运行阶段才能确定类型。其中在某些情况下，如判断变量是否相等，会存在隐式类型转换，导致预期之外的结果出现。所以，我们有必要弄清楚类型转换的规则，减少 bug 的出现，提高编程“幸福感” 🥰。</p>
+<h3 id="先挖个坑"><a href="#先挖个坑" class="headerlink" title="先挖个坑"></a>先挖个坑</h3><p>给出题目：你能说出，<code>[] == ![]</code> 的结果吗？</p>
+<p>答案：<code>true</code>。不知道答案有没有出乎你的预料，其中包含着多种隐式类型转换，如果你对此还不太了解的话，希望笔者下面的讲解能对你有帮助。</p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>JavaScript 中的数据类型可以分为 <strong>基本数据类型</strong> 和 <strong>引用数据类型</strong> 两种。</p>
+<p><em>注：本文暂不考虑 Symbol 类型。</em></p>
+<h5 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h5><p>Number、String、Boolean、Undefined、Null</p>
+<h5 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h5><p>Object、Array、Function 等</p>
+<h3 id="转换规则"><a href="#转换规则" class="headerlink" title="转换规则"></a>转换规则</h3><h5 id="一、-转换形式"><a href="#一、-转换形式" class="headerlink" title="一、 转换形式"></a>一、 转换形式</h5><p>隐式转换中主要有三种类型转换：</p>
+<ol>
+<li>将值转化为原始值， ToPrimitive()。</li>
+<li>将值转化为数字，ToNumber()。</li>
+<li>将值转化为字符串，ToString()。</li>
+</ol>
+<h5 id="二、转换基础"><a href="#二、转换基础" class="headerlink" title="二、转换基础"></a>二、转换基础</h5><p><strong>JavsScript 引擎内部的抽象操作有这样的签名： ToPrimitive(input, PreferredType?)</strong></p>
+<blockquote>
+<p>input 是要转换的值，PreferredType 是可选参数，可以是 Number 或 String 类型。</p>
+<p><strong>PreferredType 对于 Date 类型默认使用 String，其他类型使用 Number。</strong></p>
+<p>转化后的结果不一定是这个参数设置的类型，但结果一定是原始值或者报错。</p>
+</blockquote>
+<p><strong>当 PreferredType 为 Number，对输入的值进行以下操作：</strong></p>
+<blockquote>
+<ol>
+<li>如果输入的是原始值，则直接返回它。否则，进行下一步；</li>
+<li>如果输入的是对象，则调用对象的 valueOf() 方法。如果结果是原始值则返回，否则进行下一步；</li>
+<li>调用对象的 toString() 方法。如果结果是原始值则返回，否则抛出 TypeError 异常。</li>
+</ol>
+</blockquote>
+<p><strong>当 PreferredType 为 String ，对输入的值做以下操作：</strong></p>
+<blockquote>
+<ol>
+<li>如果输入的是原始值，则直接返回它。否则，进行下一步；</li>
+<li>调用这个对象的 toString() 方法。如果结果是原始值则返回，否则进行下一步；</li>
+<li>调用这个对象的 valueOf() 方法。如果结果是原始值则返回，否则抛出 TypeError 异常。</li>
+</ol>
+</blockquote>
+<h5 id="三、转换结果"><a href="#三、转换结果" class="headerlink" title="三、转换结果"></a>三、转换结果</h5><p><strong>使用 ToNumber() 将值转化为数字：</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数字</td>
+<td>直接返回，无转换</td>
+</tr>
+<tr>
+<td>字符串</td>
+<td>纯数字字符串解析为数字，否则返回 NaN</td>
+</tr>
+<tr>
+<td>null</td>
+<td>0</td>
+</tr>
+<tr>
+<td>undefined</td>
+<td>NaN</td>
+</tr>
+<tr>
+<td>对象</td>
+<td>先进行 ToPrimitive(obj, Number)转换得到原始值，再进行ToNumber转换为数字</td>
+</tr>
+</tbody></table>
+<p><strong>使用 ToString() 将值转化为字符串：</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数字</td>
+<td>数字字符串</td>
+</tr>
+<tr>
+<td>字符串</td>
+<td>直接返回，无转换</td>
+</tr>
+<tr>
+<td>null</td>
+<td>‘null’</td>
+</tr>
+<tr>
+<td>undefined</td>
+<td>‘undefined’</td>
+</tr>
+<tr>
+<td>对象</td>
+<td>先进行 ToPrimitive(obj, String)转换得到原始值，再进行ToString转换为字符串</td>
+</tr>
+</tbody></table>
+<h3 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h3><h5 id="例子一：-？"><a href="#例子一：-？" class="headerlink" title="例子一：{} + {} = ？"></a>例子一：{} + {} = ？</h5><blockquote>
+<ol>
+<li>首先这是一个加法操作，需要转换为原始值才能进行运算；</li>
+<li>因为 {} 并不是原始值，进行 ToPrimitive 转换，默认 PreferredType 为 Number；</li>
+<li>首先执行 <code>valueOf</code> 方法，得到的是 {} 本身；</li>
+<li>接着调用 <code>toString</code> 方法，得到 <code>[object Object]</code>；</li>
+<li>同理右边 {}，得到 <code>[object Object]</code>；</li>
+<li>最终结果 <code>[object Object]</code> + <code>[object Object]</code> = <code>[object Object][object Object]</code></li>
+</ol>
+</blockquote>
+<h5 id="例子二：1-2-3-4"><a href="#例子二：1-2-3-4" class="headerlink" title="例子二：1 + [2, 3, 4] = ?"></a>例子二：1 + [2, 3, 4] = ?</h5><blockquote>
+<ol>
+<li>首先这是加法操作，需要转换为原始值才能进行运算；</li>
+<li>因为 [2, 3, 4] 不是原始值，进行 ToPrimitive 转换，默认 PreferredType 为 Number；</li>
+<li>首先执行 <code>valueOf</code> 方法，得到的是 [2, 3, 4] 本身；</li>
+<li>接着调用 <code>toString</code> 方法，得到 <code>2,3,4</code>；</li>
+<li>最终结果 <code>1</code> + <code>&#39;2,3,4&#39;</code> = <code>12,3,4</code>。 </li>
+</ol>
+</blockquote>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>经过上面的讲解和两个例题的练习，相信读者已经能对隐式类型转换有了很多了解。但对于文章开头挖的坑，前面讲解的原理暂时还不足以解释清楚转换过程，所以留到下篇文章进行补充。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#先挖个坑"><span class="toc-number">1.</span> <span class="toc-text">先挖个坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-number">2.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#基本数据类型"><span class="toc-number">2.0.1.</span> <span class="toc-text">基本数据类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#引用数据类型"><span class="toc-number">2.0.2.</span> <span class="toc-text">引用数据类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换规则"><span class="toc-number">3.</span> <span class="toc-text">转换规则</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#一、-转换形式"><span class="toc-number">3.0.1.</span> <span class="toc-text">一、 转换形式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#二、转换基础"><span class="toc-number">3.0.2.</span> <span class="toc-text">二、转换基础</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#三、转换结果"><span class="toc-number">3.0.3.</span> <span class="toc-text">三、转换结果</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#举个例子"><span class="toc-number">4.</span> <span class="toc-text">举个例子</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#例子一：-？"><span class="toc-number">4.0.1.</span> <span class="toc-text">例子一：{} + {} = ？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#例子二：1-2-3-4"><span class="toc-number">4.0.2.</span> <span class="toc-text">例子二：1 + [2, 3, 4] = ?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&text=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&title=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&is_video=false&description=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JavasScript类型转换，你掌握了吗？-上&body=Check out this article: http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&title=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&title=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&title=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&title=JavasScript类型转换，你掌握了吗？-上"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/10/01/JavasScript类型转换，你掌握了吗？-上/&name=JavasScript类型转换，你掌握了吗？-上&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 HXJ
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
