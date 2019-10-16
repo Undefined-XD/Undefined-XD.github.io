@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="前言在第一次接触到“变量提升”（Hoisting）这个概念之前，我曾以为 JavaScript 的世界是简单美好的，没有错综复杂的执行顺序（人眼目测运行过程）。后来了解到“变量提升”对于程序运行可能会出现预期之外的结果，从此对于变量的声明和使用开始变得小心翼翼。正常的编程过程中很少有主动去犯“变量先使用后声明”的低级错误，然后在2019-10-16这一天，一次笔试过程中，我还是一不留神踩了大坑，主">
+<meta property="og:type" content="article">
+<meta property="og:title" content="变量提升，别再踩坑了！">
+<meta property="og:url" content="http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/index.html">
+<meta property="og:site_name" content="HXJ&#39;s Blog">
+<meta property="og:description" content="前言在第一次接触到“变量提升”（Hoisting）这个概念之前，我曾以为 JavaScript 的世界是简单美好的，没有错综复杂的执行顺序（人眼目测运行过程）。后来了解到“变量提升”对于程序运行可能会出现预期之外的结果，从此对于变量的声明和使用开始变得小心翼翼。正常的编程过程中很少有主动去犯“变量先使用后声明”的低级错误，然后在2019-10-16这一天，一次笔试过程中，我还是一不留神踩了大坑，主">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g80ilehghfj30rm07wmxz.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g80imah610j311a02gaaj.jpg">
+<meta property="og:updated_time" content="2019-10-16T16:39:36.471Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="变量提升，别再踩坑了！">
+<meta name="twitter:description" content="前言在第一次接触到“变量提升”（Hoisting）这个概念之前，我曾以为 JavaScript 的世界是简单美好的，没有错综复杂的执行顺序（人眼目测运行过程）。后来了解到“变量提升”对于程序运行可能会出现预期之外的结果，从此对于变量的声明和使用开始变得小心翼翼。正常的编程过程中很少有主动去犯“变量先使用后声明”的低级错误，然后在2019-10-16这一天，一次笔试过程中，我还是一不留神踩了大坑，主">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g80ilehghfj30rm07wmxz.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>变量提升，别再踩坑了！</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="http://108.61.186.250">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/10/05/EasyWord—趣背单词项目介绍/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&text=变量提升，别再踩坑了！"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&title=变量提升，别再踩坑了！"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&is_video=false&description=变量提升，别再踩坑了！"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=变量提升，别再踩坑了！&body=Check out this article: http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&title=变量提升，别再踩坑了！"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&title=变量提升，别再踩坑了！"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&title=变量提升，别再踩坑了！"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&title=变量提升，别再踩坑了！"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&name=变量提升，别再踩坑了！&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#先挖个坑"><span class="toc-number">2.</span> <span class="toc-text">先挖个坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量提升的本质"><span class="toc-number">3.</span> <span class="toc-text">变量提升的本质</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#示例代码"><span class="toc-number">3.0.1.</span> <span class="toc-text">示例代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#示例代码的本质"><span class="toc-number">3.0.2.</span> <span class="toc-text">示例代码的本质</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量和函数提升后顺序"><span class="toc-number">4.</span> <span class="toc-text">变量和函数提升后顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#吐槽"><span class="toc-number">5.</span> <span class="toc-text">吐槽</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再说一句"><span class="toc-number">6.</span> <span class="toc-text">再说一句</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        变量提升，别再踩坑了！
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">HXJ's Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-10-16T16:27:41.000Z" itemprop="datePublished">2019-10-17</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在第一次接触到<strong>“变量提升”（Hoisting）</strong>这个概念之前，我曾以为 JavaScript 的世界是简单美好的，没有错综复杂的执行顺序（人眼目测运行过程）。后来了解到<strong>“变量提升”</strong>对于程序运行可能会出现预期之外的结果，从此对于变量的声明和使用开始变得小心翼翼。正常的编程过程中很少有主动去犯<strong>“变量先使用后声明”</strong>的低级错误，然后在2019-10-16这一天，一次笔试过程中，我还是一不留神踩了大坑，主要还是之前对这个概念的理解不够深入，借此机会重新深入了解后，写下这篇博客。</p>
+<h3 id="先挖个坑"><a href="#先挖个坑" class="headerlink" title="先挖个坑"></a>先挖个坑</h3><p>我遇到的笔试题，大致是这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(test)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">test</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(test)</span><br><span class="line">    <span class="comment">// ... 其他内容</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> test = <span class="number">123</span></span><br></pre></td></tr></table></figure>
+
+<p>你能说出它的运行结果吗？</p>
+<p>当时看到这里我不禁会心一笑，回想起在 MDN 上了解变量提升时的一句话（后文揭示），写下了 <strong><u>报错</u></strong> 作为答案（后经查证我错了）。然而事情哪有那么简单？</p>
+<h3 id="变量提升的本质"><a href="#变量提升的本质" class="headerlink" title="变量提升的本质"></a>变量提升的本质</h3><p>从字面上理解，变量提升的重点在于“提升”二字。提升到哪去？</p>
+<blockquote>
+<p> 答：提升到当前作用域的最顶部！</p>
+</blockquote>
+<h5 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="keyword">var</span> foo = <span class="number">123</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'function foo.'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(bar);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'function bar.'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> bar = <span class="number">456</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'function bar.'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(bar);</span><br></pre></td></tr></table></figure>
+
+<p>运行得到的结果是：</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g80ilehghfj30rm07wmxz.jpg" alt="image-20191016235210164"></p>
+<h5 id="示例代码的本质"><a href="#示例代码的本质" class="headerlink" title="示例代码的本质"></a>示例代码的本质</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 变量提升，变量默认被先声明（函数声明+赋值），然后置于作用域的最顶部</span></span><br><span class="line"><span class="keyword">var</span> foo;</span><br><span class="line"><span class="keyword">var</span> bar;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;...&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>)</span>&#123;...&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 非变量和函数声明的其他代码保持原本的顺序</span></span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line">foo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(bar);</span><br><span class="line"></span><br><span class="line">bar = <span class="number">456</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(bar);</span><br></pre></td></tr></table></figure>
+
+<p>经过梳理后的代码顺序就不难理解如何得出上图中的结果了，读者可以仔细对比一下。</p>
+<h3 id="变量和函数提升后顺序"><a href="#变量和函数提升后顺序" class="headerlink" title="变量和函数提升后顺序"></a>变量和函数提升后顺序</h3><blockquote>
+<p>作用域中变量和函数都会被提升，但变量声明整体在前，函数声明赋值整体在后，也正如上面梳理后的代码示例所示。</p>
+</blockquote>
+<h3 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h3><p>本文开篇时笔者说过，在 MDN 上了解变量提升，里面有一句话让我印象深刻。也正因为这句话，让我对于变量提升的理解出现了严重偏差，这也是我做错笔试题的原因。如图所示：</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g80imah610j311a02gaaj.jpg" alt="image-20191017000936368"></p>
+<p>这句话是否可以理解为函数声明整体的位置在变量声明整体的上方？</p>
+<p>在这里，我从仅对自身负责的角度讲，<strong>“函数会被提升到更靠前的位置”</strong>的表述明显是不对。如果函数声明整体位于变量声明<strong>之前</strong>，显然是无法得到示例代码中的运行结果。</p>
+<p>而我坚定地写下答案—<strong>报错</strong>时，注定此题已丢分~~😭</p>
+<p>看到这里，其实读者已经可以按照本文给出的变量提升本质，自行运算笔试题答案。</p>
+<h3 id="再说一句"><a href="#再说一句" class="headerlink" title="再说一句"></a>再说一句</h3><p>还是 ES6 好啊，<code>let</code> <code>const</code> 引入也带来了<strong>“暂时性死区”</strong>这个概念，就从语言层面约束了“变量和函数必须先声明再使用”。</p>
+<p>经过本次笔试经历能更正自己对于此前变量提升的错误理解，跟一道普通的笔试题比起无疑是更大的收获，对变量提升的理解也更加深入了，以后再碰到变量提升的大坑就可以跟它 say goodbye~。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="http://108.61.186.250">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#先挖个坑"><span class="toc-number">2.</span> <span class="toc-text">先挖个坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量提升的本质"><span class="toc-number">3.</span> <span class="toc-text">变量提升的本质</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#示例代码"><span class="toc-number">3.0.1.</span> <span class="toc-text">示例代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#示例代码的本质"><span class="toc-number">3.0.2.</span> <span class="toc-text">示例代码的本质</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量和函数提升后顺序"><span class="toc-number">4.</span> <span class="toc-text">变量和函数提升后顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#吐槽"><span class="toc-number">5.</span> <span class="toc-text">吐槽</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再说一句"><span class="toc-number">6.</span> <span class="toc-text">再说一句</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&text=变量提升，别再踩坑了！"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&title=变量提升，别再踩坑了！"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&is_video=false&description=变量提升，别再踩坑了！"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=变量提升，别再踩坑了！&body=Check out this article: http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&title=变量提升，别再踩坑了！"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&title=变量提升，别再踩坑了！"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&title=变量提升，别再踩坑了！"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&title=变量提升，别再踩坑了！"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/10/17/变量提升，别再踩坑了！/&name=变量提升，别再踩坑了！&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 HXJ
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="http://108.61.186.250">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
