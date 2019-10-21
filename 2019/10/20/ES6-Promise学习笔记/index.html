@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="概述在面试的过程中有被问到关于 Promise 相关的问题，随着问题的深入我的回答也逐渐变得有些犹豫不定，发现了自身对于 Promise 仍然缺少一次彻底的了解，因此重新花了一天时间将 Promise 重新学习并记录下学习笔记。 在这里感谢阮一峰老师的 《ECMAScript 6 入门》，帮助我更好的学习和理解 Promise 的特性。 Promise 的作用Promise 简单来说就是一个容器，">
+    <meta name="description" content="概述在面试的过程中有被问到关于 Promise 相关的问题，随着问题的深入我的回答也逐渐变得有些犹豫不定，发现了自身对于 Promise 仍然缺少一次彻底的了解，因此重新花了一天时间将 Promise 重新学习并记录下学习笔记。 在这里感谢阮一峰老师的 《ECMAScript 6 入门》，帮助我更好地学习和理解 Promise 的特性。 Promise 的作用Promise 简单来说就是一个容器，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES6-Promise学习笔记">
 <meta property="og:url" content="http://yoursite.com/2019/10/20/ES6-Promise学习笔记/index.html">
 <meta property="og:site_name" content="HXJ&#39;s Blog">
-<meta property="og:description" content="概述在面试的过程中有被问到关于 Promise 相关的问题，随着问题的深入我的回答也逐渐变得有些犹豫不定，发现了自身对于 Promise 仍然缺少一次彻底的了解，因此重新花了一天时间将 Promise 重新学习并记录下学习笔记。 在这里感谢阮一峰老师的 《ECMAScript 6 入门》，帮助我更好的学习和理解 Promise 的特性。 Promise 的作用Promise 简单来说就是一个容器，">
+<meta property="og:description" content="概述在面试的过程中有被问到关于 Promise 相关的问题，随着问题的深入我的回答也逐渐变得有些犹豫不定，发现了自身对于 Promise 仍然缺少一次彻底的了解，因此重新花了一天时间将 Promise 重新学习并记录下学习笔记。 在这里感谢阮一峰老师的 《ECMAScript 6 入门》，帮助我更好地学习和理解 Promise 的特性。 Promise 的作用Promise 简单来说就是一个容器，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-20T16:42:05.332Z">
+<meta property="og:updated_time" content="2019-10-21T01:31:48.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6-Promise学习笔记">
-<meta name="twitter:description" content="概述在面试的过程中有被问到关于 Promise 相关的问题，随着问题的深入我的回答也逐渐变得有些犹豫不定，发现了自身对于 Promise 仍然缺少一次彻底的了解，因此重新花了一天时间将 Promise 重新学习并记录下学习笔记。 在这里感谢阮一峰老师的 《ECMAScript 6 入门》，帮助我更好的学习和理解 Promise 的特性。 Promise 的作用Promise 简单来说就是一个容器，">
+<meta name="twitter:description" content="概述在面试的过程中有被问到关于 Promise 相关的问题，随着问题的深入我的回答也逐渐变得有些犹豫不定，发现了自身对于 Promise 仍然缺少一次彻底的了解，因此重新花了一天时间将 Promise 重新学习并记录下学习笔记。 在这里感谢阮一峰老师的 《ECMAScript 6 入门》，帮助我更好地学习和理解 Promise 的特性。 Promise 的作用Promise 简单来说就是一个容器，">
     
     
         
@@ -140,8 +140,8 @@
 
   <div class="content" itemprop="articleBody">
     <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>在面试的过程中有被问到关于 Promise 相关的问题，随着问题的深入我的回答也逐渐变得有些犹豫不定，发现了自身对于 Promise 仍然缺少一次彻底的了解，因此重新花了一天时间将 Promise 重新学习并记录下学习笔记。</p>
-<p>在这里感谢阮一峰老师的 《ECMAScript 6 入门》，帮助我更好的学习和理解 Promise 的特性。</p>
-<h3 id="Promise-的作用"><a href="#Promise-的作用" class="headerlink" title="Promise 的作用"></a>Promise 的作用</h3><p><code>Promise</code> 简单来说就是一个容器，里面保存某个未来才会结束的时间（通常是一个异步操作）的结果，它可以获取异步操作的消息。</p>
+<p>在这里感谢阮一峰老师的 《ECMAScript 6 入门》，帮助我更好地学习和理解 Promise 的特性。</p>
+<h3 id="Promise-的作用"><a href="#Promise-的作用" class="headerlink" title="Promise 的作用"></a>Promise 的作用</h3><p><code>Promise</code> 简单来说就是一个容器，里面保存某个未来才会结束的事件（通常是一个异步操作）的结果，它可以获取异步操作的消息。</p>
 <h3 id="Promise-的两个特点"><a href="#Promise-的两个特点" class="headerlink" title="Promise 的两个特点"></a>Promise 的两个特点</h3><ol>
 <li><p>对象的状态不受外界影响。<code>Promise</code> 对象代表一个异步操作，有三种状态：<code>pending</code>（进行中）、<code>fulfilled</code>（已成功）、<code>rejected</code>（已失败）。</p>
 <p> 只有异步操作的结果，可以决定当前是哪一种状态，一但状态发生改变，任何其他操作都无法改变这个状态。</p>
@@ -159,14 +159,14 @@
 <ol>
 <li><p><code>resolve</code> 函数的作用是将 <code>Promise</code> 对象的状态从 <code>pending</code> =&gt; <code>resolved</code>，在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；</p>
 </li>
-<li><p><code>reject</code> 函数的作用是将 <code>Promise</code> 对象的转台从 <code>pending</code> =&gt; <code>rejected</code>，在异步操作失败时调用，并将报出的错误，作为参数传递出去。</p>
+<li><p><code>reject</code> 函数的作用是将 <code>Promise</code> 对象的状态从 <code>pending</code> =&gt; <code>rejected</code>，在异步操作失败时调用，并将报出的错误，作为参数传递出去。</p>
 </li>
 <li><p><code>reject</code> 函数的参数通常是 <code>Error</code> 对象的实例，表示抛出的错误。（其实，也可以在 <code>resolve</code> 函数中传递一个 <code>Error</code> 对象实例，对应的 <code>then</code> 方法中能接收到 <code>Error</code> 实例）</p>
 </li>
 <li><p><code>resolve</code> 函数的参数除了正常的值以外，还可能是另一个 <code>Promise</code> 实例。<strong>即一个异步操作的结果是返回另一个异步操作。</strong></p>
 <p> <em>假设此时有promise 实例：p1，p2。</em></p>
 <p> 情况一： <code>p2</code> 中 <code>resolve(p1)</code>，则 <code>p1</code> 的状态决定了 <code>p2</code> 的状态。即当 <code>p1</code> 的状态为 <code>resolved</code> 时，<code>p2</code> 为 <code>resolved</code>；<code>p1</code> 状态为 <code>rejected</code> 时，<code>p2</code> 为 <code>rejected</code>。然后决定调用 <code>then</code> 方法中的哪种情况。</p>
-<p> 情况二：<code>p2</code> 中 <code>reject(p1)</code>，则 <code>p1</code> 的状态无法影响 <code>p2</code> 的状态。即当 <code>p2</code> 将向 <code>rejected</code> 状态转变，而 <code>p1</code>无论成为什么状态，都无法影响 <code>p2</code>。<code>p2</code> 将直接使用 <code>then</code> 方法中的 <code>reject</code> 情况。</p>
+<p> 情况二：<code>p2</code> 中 <code>reject(p1)</code>，则 <code>p1</code> 的状态无法影响 <code>p2</code> 的状态。即当 <code>p2</code> 将向 <code>rejected</code> 状态转变，而 <code>p1</code> 无论成为什么状态，都无法影响 <code>p2</code>。<code>p2</code> 将直接使用 <code>then()</code> 方法中的 <code>reject</code> 情况。</p>
 </li>
 </ol>
 <h3 id="Promise-prototype-then"><a href="#Promise-prototype-then" class="headerlink" title="Promise.prototype.then()"></a>Promise.prototype.then()</h3><p><strong><code>then()</code> 方法的作用就是为 Promise 实例添加状态改变时的回调函数。</strong></p>
@@ -178,7 +178,7 @@
 <p><strong><code>then()</code>方法返回的是一个新的 Promise 实例（不是原来的 Promise 实例），可以采用链式写法。</strong></p>
 <p>对于 <code>then()</code> 方法返回的新的 <code>Promise</code> 实例，应该是来自默认调用 <code>Promise.resolve()</code> 产生的。</p>
 <p>当未指定任何参数时，产生的 <code>Promise</code> 实例的值为 <code>undefined</code>。（<code>Promise.reject()</code> 无参数时产生的实例的值也为 <code>undefined</code>）</p>
-<p><code>then()</code> 方法不需要显示声明 <code>return</code> 也能默认返回一个值为 <code>undefined</code> 的 <code>Promise</code> 实例。或者显示声明 <code>return val</code>，将自动转换为一个 <code>Promise</code> 实例以返回。</p>
+<p><code>then()</code> 方法不需要显式声明 <code>return</code> 也能默认返回一个值为 <code>undefined</code> 的 <code>Promise</code> 实例。或者显式声明 <code>return val</code>，将自动转换为一个 <code>Promise</code> 实例以返回。</p>
 <p><strong>当一个 Promise 对象上定义了多个 then() 方法，那么这些 then() 方法在事件循环时，将一次性从头到尾进行调用，而不会被中途打断。</strong></p>
 <p>（即如果同时有一个 <code>setTimeout</code> 和 一个定义了多个 <code>then()</code> 方法的 Promise 对象，那么多个 <code>then()</code> 方法将一次性从头到尾执行完，而不会被 <code>setTimeout</code> 打断）。</p>
 <h3 id="Promise-prototype-catch"><a href="#Promise-prototype-catch" class="headerlink" title="Promise.prototype.catch()"></a>Promise.prototype.catch()</h3><p><code>catch()</code> 方法相当于 <code>.then(null, reject =&gt; {...})</code> 或 <code>.then(undefined, reject =&gt; {...})</code>，用于处理 Promise 对象内部抛出的错误。</p>
