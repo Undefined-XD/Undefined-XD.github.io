@@ -1,0 +1,1248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Java SE 学习笔记</title>
+    <url>/2020/03/22/Java-SE-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="术语："><a href="#术语：" class="headerlink" title="术语："></a>术语：</h3><ul>
+<li>JVM：Java 虚拟机是 Java 程序的运行环境，不同的操作系统上有不同的 JVM，它们能够运行现有的 Java 程序。</li>
+<li>JRE：Java 运行时环境，其中包含 JVM 和运行时所需要的<strong>核心类库</strong>等。</li>
+<li>JDK：Java 开发工具，包含 JRE 和相关开发工具。</li>
+</ul>
+<h3 id="命令行窗口命令："><a href="#命令行窗口命令：" class="headerlink" title="命令行窗口命令："></a>命令行窗口命令：</h3><ul>
+<li><p>Javac 是 Java 编译器，负责将写好的 xxx.java 源代码进行编译，得到 xxx.class 字节码文件；</p>
+</li>
+<li><p>Java 是 Java 运行器，负责将 xxx.class 文件进行运行；</p>
+</li>
+</ul>
+<h3 id="基本数据类型："><a href="#基本数据类型：" class="headerlink" title="基本数据类型："></a>基本数据类型：</h3><table>
+<thead>
+<tr>
+<th align="center">byte</th>
+<th align="center">1字节</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">short</td>
+<td align="center">2字节</td>
+</tr>
+<tr>
+<td align="center">int</td>
+<td align="center">4 字节</td>
+</tr>
+<tr>
+<td align="center">long</td>
+<td align="center">8字节</td>
+</tr>
+<tr>
+<td align="center">float</td>
+<td align="center">4字节</td>
+</tr>
+<tr>
+<td align="center">double</td>
+<td align="center">8字节</td>
+</tr>
+<tr>
+<td align="center">char</td>
+<td align="center">2字节</td>
+</tr>
+<tr>
+<td align="center">boolean</td>
+<td align="center">1字节</td>
+</tr>
+</tbody></table>
+<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><p>Java中涉及<strong>byte、short和char类型的运算操作首先会把这些值自动提升转换为int类型</strong>，然后对int类型值进行运算，<strong>最后得到int类型的结果</strong>。而long 和 float 本身取值范围大过int ，所以不想损失精度就要手动转换。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">byte</span> b = <span class="number">1</span>; <span class="comment">// 以下三种类型的变量在赋值时，由int类型字面常量赋值给变量</span></span><br><span class="line">        <span class="keyword">char</span> c = <span class="number">1</span>;<span class="comment">// 虽然类型不符，但是因为过于常用，Java支持隐含的类型转换</span></span><br><span class="line">        <span class="keyword">short</span> s = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">byte</span> b2 = i; <span class="comment">//而变量之间的赋值</span></span><br><span class="line">         <span class="keyword">char</span> c2 = i; <span class="comment">//即使不会发生数据的丢失</span></span><br><span class="line">         <span class="keyword">short</span> s2 = i; <span class="comment">//也不支持隐含的类型转换</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// printt(1);// 编译时会产生错误,10为int类型，而无对应方法</span></span><br><span class="line">        printt((<span class="keyword">short</span>) <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>char 类型在进行数学运算时是根据 ASCII 码数值进行计算的。</p>
+<p>boolean 类型不能进行类型转换。</p>
+<h3 id="定义方法"><a href="#定义方法" class="headerlink" title="定义方法"></a>定义方法</h3><ol>
+<li>方法定义在 main() 方法之外，类之内。</li>
+<li>方法不能产生嵌套包含关系，方法之间是平行关系。</li>
+<li>方法的类型可以是任意的。</li>
+</ol>
+<h3 id="方法重载"><a href="#方法重载" class="headerlink" title="方法重载"></a>方法重载</h3><ol>
+<li>多个方法的<strong>方法名相同</strong>，但是<strong>参数列表不同</strong><ul>
+<li>参数个数不同</li>
+<li>参数类型不同</li>
+<li>参数类型顺序不同</li>
+</ul>
+</li>
+<li>调用方法时自动根据传入的参数进行使用</li>
+<li>参数列表的形参名字可以不同</li>
+</ol>
+<p><strong>注意：如果方法名相同，参数列表相同，返回值不同，不属于重载，会报错提示该函数已存在。但是，如果方法名相同，参数列表不同，返回值不同，那就是重载。</strong></p>
+<h3 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h3><ol>
+<li><p>动态创建，创建时指定长度</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line"><span class="keyword">double</span>[] arr = <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">20</span>];</span><br><span class="line">String[] arr = <span class="keyword">new</span> String[<span class="number">30</span>];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>静态创建，创建时直接赋值</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"><span class="keyword">double</span>[] arr = <span class="keyword">new</span> <span class="keyword">double</span>[] &#123;<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>简略写法</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>[] arr = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p><strong>注意：前面两个步骤，= 左边两边是可以拆开来写的，但简略写法不能拆开来写。</strong></p>
+<p><strong>数组元素有默认值，规则如下：</strong></p>
+<ol>
+<li>int 类型，默认值为 0</li>
+<li>float / double 类型，默认值为 0.0</li>
+<li>char 类型，默认值为 ‘\u0000’  (一个不可见字符)</li>
+<li>boolean 类型，默认值为 false</li>
+<li>引用类型，默认值为 null</li>
+</ol>
+<p><strong>注意：虽然静态创建和简略写法已经直接赋值，但是在数组创建过程当中仍然有默认值，随后才被新值替换。</strong></p>
+<p><strong>java 内存划分成 5 个部分：</strong></p>
+<ol>
+<li>栈：存放方法的局部变量。</li>
+<li>堆，存放 new 出来的对象，有一个十六进制的地址值，里面的数据有默认值。</li>
+<li>方法区：存放.class 相关信息，包含方法的信息。</li>
+<li>本地方法栈：与操作系统有关。</li>
+<li>寄存器：与 CPU 有关。</li>
+</ol>
+<h3 id="面向对象的三个特征"><a href="#面向对象的三个特征" class="headerlink" title="面向对象的三个特征"></a>面向对象的三个特征</h3><ol>
+<li>封装<ul>
+<li>方法的封装</li>
+<li><code>private</code> 对成员变量的修饰，可以阻止外界直接访问到该变量，并且由于通过间接设置的方式，也为我们对于试图改动这个变量的情况有了控制的能力。</li>
+</ul>
+</li>
+<li>继承<ul>
+<li>单继承，一个类只能有一个父类。</li>
+<li>类之间可以多级继承。</li>
+<li>一个子类的直接父类是唯一的，但一个父类可以有多个子类。</li>
+</ul>
+</li>
+<li>多态<ul>
+<li>多态即多种形态，一个对象可以有多种形态，体现对象的多态性。</li>
+<li>多态的体现：父类引用指向子类对象。</li>
+</ul>
+</li>
+</ol>
+<h3 id="类的定义"><a href="#类的定义" class="headerlink" title="类的定义"></a>类的定义</h3><ol>
+<li><strong>成员变量直接定义在类当中，在方法外面。</strong></li>
+<li><strong>成员方法不需要写 static 关键字。</strong></li>
+</ol>
+<h3 id="类的成员变量和成员方法"><a href="#类的成员变量和成员方法" class="headerlink" title="类的成员变量和成员方法"></a>类的成员变量和成员方法</h3><ol>
+<li><p><code>private</code> 修饰的<strong>成员变量</strong>和<strong>成员方法</strong>，不能被外部直接访问到，只能类自身进行访问和赋值。</p>
+</li>
+<li><p><strong>类中的 <code>this</code> 始终指向当前实例。</strong></p>
+</li>
+<li><p>成员方法中的成员变量通过 <code>this.成员变量名</code>进行访问，避免成员变量名和传入的局部变量命名冲突。</p>
+</li>
+<li><p>如果基本类型的变量传入成员方法，成员方法获得的是值的赋值，该变量的后续修改不影响类中的相应变量值。</p>
+</li>
+<li><p>如果引用类型的变量传入成员方法，成员方法获得的是该对象的内存地址，成员变量也会指向同一个对象，任何一方对对象的修改都会影响另一方获取到的值。</p>
+</li>
+<li><p>可变参数</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Group</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String[] names;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可变参数用类型...定义，可变参数相当于数组类型：</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNames</span><span class="params">(String... names)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.names = names;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问成员变量的两种方式：</p>
+<ol>
+<li><p>直接通过对象名称访问成员变量：看等号左边是谁，优先用谁，没有则向上查找。</p>
+</li>
+<li><p>间接通过成员方法访问成员变量：看该方法属于谁，优先用谁，没有则向上找。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 主要应用在多态上</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fu</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showNum</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(num);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Zi</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">20</span>;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showNum</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(num);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Fu obj = <span class="keyword">new</span> Zi();</span><br><span class="line">System.out.println(obj.num); <span class="comment">// 结果使用 Fu 的 num 为10</span></span><br><span class="line"><span class="comment">// 情况一：只有 FU 中存在 showNum()</span></span><br><span class="line">obj.showNum(); <span class="comment">// 结果使用 Fu 的 num 为10</span></span><br><span class="line"><span class="comment">// 情况二：子类 @Override showNum()</span></span><br><span class="line">obj.showNum(); <span class="comment">// 结果使用 Zi 的 num 为2-</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问成员方法的方式：</p>
+<ul>
+<li>看 new 的是谁，就优先用谁，没有则向上找。</li>
+<li>编译看左边，运行看右边。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="类的构造方法"><a href="#类的构造方法" class="headerlink" title="类的构造方法"></a>类的构造方法</h3><ol>
+<li>一个类可以有多个不同参数列表的构造方法（方法重载）</li>
+<li>实例在创建的时候通过<code>new</code>调用<strong>合适</strong>的构造方法（跟方法重载效果相同）</li>
+<li>构造方法没有返回值，也不需要指定 <code>void</code> 。</li>
+<li>一个类如果没有定义构造方法，编译器会自动生成一个参数和内容为空的构造方法。</li>
+<li>在一个构造方法内部，可以 <code>this(不同参数列表)</code> 调用另一个构造方法，便于代码复用。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(name, <span class="number">18</span>); <span class="comment">// 调用另一个构造方法Person(String, int)</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(<span class="string">"Unnamed"</span>); <span class="comment">// 调用另一个构造方法Person(String)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h3><p>继承是面向对象编程中非常强大的一种机制，它首先可以复用代码。当我们让<code>Student</code>从<code>Person</code>继承时，<code>Student</code>就获得了<code>Person</code>的所有功能，我们只需要为<code>Student</code>编写新增的功能，不再需要重复代码。</p>
+<p>在OOP的术语中，我们把<code>Person</code>称为超类（super class），父类（parent class），基类（base class），把<code>Student</code>称为子类（subclass），扩展类（extended class）。</p>
+<ol>
+<li>编译器会默认给所有类加上 <code>extends Object</code>。</li>
+<li>Java只允许一个class继承自一个类，因此，一个类有且仅有一个父类。只有<code>Object</code>特殊，它没有父类。</li>
+<li><code>private</code> 修饰的成员变量和方法无法访问，需要使用 <code>protected</code> 来修饰后才能用。</li>
+<li>子类要使用在父类中定义的成员变量和方法时，可以通过使用 <code>super.变量名</code> 或 <code>this.变量名</code> 或 <code>变量名</code> ，效果都是一样的，编译器会自动定位到父类的相应位置。</li>
+<li>局部变量、子类成员变量、父类成员变量同名情况，调用规则如下：<ul>
+<li>局部变量：直接写变量名</li>
+<li>子类成员变量：<code>this.成员变量名</code></li>
+<li>父类成员变量：<code>super.成员变量名</code></li>
+</ul>
+</li>
+<li>子类构造方法中第一行<strong>必须</strong>调用父类构造方法，如果没有明确调用，编译器会自动加上 <code>super();</code></li>
+<li>当子类和父类中有<strong>重名的成员变量</strong>，获取成员变量的规则如下：<ul>
+<li>如果是 <code>子类·成员变量</code> ，那么优先调用的是子类的成员变量。</li>
+<li>如果是 <code>子类·成员方法</code>，那么优先调用<strong>该方法所在类中</strong>的成员变量。</li>
+</ul>
+</li>
+<li>子类方法的返回值类型范围必须<strong>小于等于</strong>父类方法的返回值类型范围。</li>
+<li>子类方法的权限必须<strong>大于等于</strong>父类方法的权限修饰符<ul>
+<li>例如，父类方法权限是 <code>protected</code> ，子类重写该方法，权限只能选择 <code>public</code> 或 <code>protected</code>。</li>
+</ul>
+</li>
+</ol>
+<h3 id="super-的三种用法"><a href="#super-的三种用法" class="headerlink" title="super 的三种用法"></a>super 的三种用法</h3><ol>
+<li><code>super·成员变量;</code> 使用父类成员变量。</li>
+<li><code>super·成员方法;</code> 使用父类成员方法。</li>
+<li><code>super();</code> 使用父类构造方法。</li>
+</ol>
+<h3 id="this-的三种用法"><a href="#this-的三种用法" class="headerlink" title="this 的三种用法"></a>this 的三种用法</h3><ol>
+<li><code>this·成员变量;</code> 调用本类成员变量。</li>
+<li><code>this·成员方法;</code> 调用本类成员方法。</li>
+<li><code>this();</code> 调用子类其他的构造方法。</li>
+</ol>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>在继承关系中，子类如果定义了一个与父类方法签名完全相同的方法，被称为覆写（Override）。</p>
+<p>加上<code>@Override</code>可以让编译器帮助检查是否进行了正确的覆写。希望进行覆写，但是不小心写错了方法签名，编译器会报错。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person p = <span class="keyword">new</span> Student();</span><br><span class="line">        p.run(); <span class="comment">// 实际使用 Student.run</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Person.run"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Student.run"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Java的实例方法调用是基于<u>运行时</u>的<u>实际类型</u>的动态调用，而非变量的声明类型，这个非常重要的特性在面向对象编程中称之为多态。</strong></p>
+<p>多态是指，针对某个类型的方法调用，其真正执行的方法取决于运行时期实际类型的方法。</p>
+<p>继承可以允许子类覆写父类的方法。如果一个父类不允许子类对它的某个方法进行覆写，可以把该方法标记为<code>final</code>。用<code>final</code>修饰的方法不能被<code>Override</code>。</p>
+<p>如果一个类不希望任何其他类继承自它，那么可以把这个类本身标记为<code>final</code>。用<code>final</code>修饰的类不能被继承。</p>
+<p>对于一个类的实例字段，同样可以用<code>final</code>修饰。用<code>final</code>修饰的字段在初始化后不能被修改。</p>
+<p>可以在构造方法中初始化final字段：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 方法一：直接初初始化</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> String name = <span class="string">"Unamed"</span>;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">// 方法二：先定义，构造函数再初始化    </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> String name;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h3><ol>
+<li><p><code>abstruct</code> 修饰的类是抽象类，抽象类无法实例化。</p>
+</li>
+<li><p>因为抽象类本身被设计成只能用于被继承，因此，<strong>抽象类可以强迫子类实现其定义的所有抽象方法</strong>，<strong>或者子类也成为抽象类</strong>，否则编译会报错。因此，抽象方法实际上相当于定义了“规范”。</p>
+</li>
+<li><p>抽象类仍然可以当做向上转型的引用类型，体现多态。</p>
+</li>
+<li><p>抽象类中通过 <code>abstruct</code> 修饰的抽象方法，不能有方法体。</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>; <span class="comment">// 不能有方法体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>抽象类中仍可以定义普通方法，子类可以调用普通方法。</p>
+</li>
+<li><p>抽象类中可以没有抽象方法，但有抽象方法的类一定是抽象类。</p>
+</li>
+<li><p>抽象类中定义的方法，在后续的子类中必须逐渐把所有的抽象方法实现，否则也要定义成抽象类，给更后面的子类把未实现的抽象方法实现。而前面的类已经实现了的方法，就不强制要求实现了，要么默认使用，要么可以选择重写的方式来使用。</p>
+</li>
+</ol>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>所谓<code>interface</code>，就是比抽象类还要抽象的纯抽象接口。</p>
+<ol>
+<li><p><code>interface</code> 中定义的方法，子类在 <code>implements</code> 后必须覆写里面的方法，或者转为抽象类，否则报错。</p>
+</li>
+<li><p><code>interface</code> 中定义的字段默认都是 <code>public static final</code> 修饰的，<strong>只能在声明时初始化</strong>，不能再变。常量以全大写字母命名，多单词之间用下划线分割，如 <code>public static final int TOTAL_MONEY = 10;</code>。</p>
+</li>
+<li><p>一个类可以多次<code>implements interface</code> 。</p>
+</li>
+<li><p>接口之间可以是是多继承关系的，如果多个父接口中的默认方法重复，子接口需要重写该默认方法，且带有 <code>default</code> 关键字。</p>
+</li>
+<li><p><code>interface</code> 中的方法可以被 <code>default</code> 修饰。<code>default</code> 修饰的方法可以不强制在所有子类都实现，只在需要用到地方覆写即可。</p>
+</li>
+<li><p><code>interface</code> 中定义的方法默认都是 <code>public abstract</code> 修饰的，可以不写，也可以只写任意一部分。方法的三要素（返回值类型、方法名、形参列表）可以随意定义。</p>
+</li>
+<li><p>Java 8 开始<code>interface</code> 中可以定义<strong>静态方法</strong>，通过 <code>接口名·静态方法名</code> 直接使用。</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> 接口名 </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> 方法名(参数列表) &#123;</span><br><span class="line">    <span class="comment">// 方法体</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Java 9 开始 <code>interface</code> 中可以定义普通私有方法、静态私有方法，以解决接口中代码重复的问题而不暴露给实现类使用：</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> 接口名 </span>&#123;</span><br><span class="line">    <span class="comment">// 定义普通私有方法</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">f1</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 方法体</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 定义静态私有方法</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">f2</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 方法体</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>两个接口中有重复的默认方法，实现类必须重写该默认方法。</p>
+</li>
+<li><p>两个接口中有重复的抽象方法，实现类只需要重写一次该抽象方法。</p>
+</li>
+<li><p>继承的父类和实现的接口中有重名的默认方法，优先调用父类方法。</p>
+</li>
+</ol>
+<h3 id="静态字段和静态方法"><a href="#静态字段和静态方法" class="headerlink" title="静态字段和静态方法"></a>静态字段和静态方法</h3><ol>
+<li>静态字段、静态方法并不专属于某个实例，它们是唯一且公共的。</li>
+<li>不推荐 <code>实例名·静态字段</code> 的方式去访问静态字段，实际上是编译器自动根据实例类型转化为 <code>类名·静态字段</code> 的方式来访问，静态方法的情况同理。</li>
+<li>静态方法中不能使用 <code>this</code> ，因为它不属于实例，只能访问静态字段和其他静态方法。</li>
+<li>静态方法常用于工具类和辅助方法。</li>
+<li>静态方法中访问不到非静态的内容，因为内存中是先存在静态内容，后存在非静态内容。</li>
+</ol>
+<h3 id="静态代码块"><a href="#静态代码块" class="headerlink" title="静态代码块"></a>静态代码块</h3><ol>
+<li>静态代码块优先于非静态代码执行，与代码先后顺序无关。</li>
+<li>静态代码块<strong>只在</strong>第一次使用本类时执行。</li>
+<li>适用于一次性对静态成员变量进行赋值。</li>
+</ol>
+<h3 id="访问权限"><a href="#访问权限" class="headerlink" title="访问权限"></a>访问权限</h3><ol>
+<li><p><code>public</code>：可以被任意访问</p>
+</li>
+<li><p><code>protected</code>：可以被同包的类，和任意包的子类访问</p>
+</li>
+<li><p><code>default(package)</code>：可以被同包的类访问</p>
+</li>
+<li><p><code>private</code>：只能被自身内部访问</p>
+</li>
+<li><p>一个<code>.java</code>文件只能包含一个<code>public</code>类，但可以包含多个非<code>public</code>类。</p>
+</li>
+<li><p>如果有<code>public</code>类，文件名必须和<code>public</code>类的名字相同。</p>
+</li>
+</ol>
+<h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><ol>
+<li><p>在<strong>方法内部</strong>定义的变量称为局部变量。</p>
+</li>
+<li><p>局部变量作用域从变量声明处开始到对应的块结束。</p>
+</li>
+<li><p>方法参数也是局部变量。</p>
+</li>
+</ol>
+<h3 id="final-修饰符"><a href="#final-修饰符" class="headerlink" title="final 修饰符"></a>final 修饰符</h3><ol>
+<li><code>final</code> 修饰 <code>class</code>，可以阻止类被<strong>继承</strong>。</li>
+<li><code>final</code> 修饰 <code>method</code>，可以阻止方法被子类<strong>覆写</strong>。</li>
+<li><code>final</code> 修饰 <code>field</code>，可以阻止字段被<strong>重新赋值</strong>。</li>
+<li><code>final</code> 修饰局部变量，可以阻止被<strong>重新赋值</strong>。</li>
+</ol>
+<h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><p><strong>泛型就是编写模板代码来适应任意类型。</strong></p>
+<p>情况一：编写一个 String 类型的 ArrayList</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringArrayList</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String[] array;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String e)</span> </span>&#123;...&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;...&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>情况二：编写一个 Integer类型的 ArrayList</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerArrayList</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Integer[] array;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(Integer e)</span> </span>&#123;...&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;...&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如此会造成代码的重复，泛型就是定义一种类型的模板，这样一来，我们就实现了：编写一次模版，可以创建任意类型的<code>ArrayList</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T[] array;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(T e)</span> </span>&#123;...&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;...&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为 ArrayList 实现了接口 List，所以泛型可以先上转型。</p>
+<p><strong>注意：泛型类型&lt;T&gt;不能用于静态方法。</strong></p>
+<h3 id="多个泛型"><a href="#多个泛型" class="headerlink" title="多个泛型"></a>多个泛型</h3><p>泛型还可以定义多种类型。例如，我们希望<code>Pair</code>不总是存储两个类型一样的对象，就可以使用类型：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Pair</span>&lt;<span class="title">T</span>, <span class="title">K</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> T first;</span><br><span class="line">    <span class="keyword">private</span> K last;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Pair</span><span class="params">(T first, K last)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.first = first;</span><br><span class="line">        <span class="keyword">this</span>.last = last;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getFirst</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> K <span class="title">getLast</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用的时候，需要指出两种类型：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Pair&lt;String, Integer&gt; p = <span class="keyword">new</span> Pair&lt;&gt;(<span class="string">"test"</span>, <span class="number">123</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><ol>
+<li>字符串的内容永不可变，是常量，可以被共享。</li>
+<li><code>String</code> 类型的字符是存储在 <code>byte[]</code> 中的。</li>
+<li>通过 <code>String s = &quot;abc&quot;;</code> 字面量方式创建的字符串常量存储在 <code>字符串常量池</code> 中。</li>
+<li>通过 <code>Sting s = new Sting();</code> 实例化创建出来的字符串在独立的堆内存中。</li>
+<li>直接打印 <code>String</code>、<code>char[]</code> 是可以显示字符串的，如果是其他类型数组会打印地址值。</li>
+<li>通过 <code>==</code> 比较的是字符串的内存地址。</li>
+<li>通过 <code>字符串1.equals(字符串2);</code> 的方法可以比较字符串<strong>内容</strong>是否相同。</li>
+<li>通过 <code>字符串1.equalsIgnoreCase(字符串2);</code> 的方法可以比较内容<strong>忽略大小写</strong>是否相同。</li>
+</ol>
+<p><img src="/Users/hxj/Documents/GitHub/hexo/Blog/source/_posts/image-20200310215114574.png" alt="image-20200310215114574"></p>
+<h3 id="Object-toString"><a href="#Object-toString" class="headerlink" title="Object.toString()"></a>Object.toString()</h3><ol>
+<li>默认情况下，如果一个类没有重写 toString 方法，那么使用 toString 方法得到的是内存地址。如果重写 toString 方法，将可以得到需要显示的格式。</li>
+<li>可以根据自身需求，重写 toString 方法。</li>
+</ol>
+<h3 id="相等比较"><a href="#相等比较" class="headerlink" title="相等比较"></a>相等比较</h3><p> <strong>== 的作用：</strong><br>　　基本类型：比较的就是<strong>值</strong>是否相同。<br>　　引用类型：比较的就是<strong>地址值</strong>是否相同。<br><strong>equals 的作用:</strong><br>　　引用类型：默认情况下，比较的是<strong>地址值</strong>。</p>
+<p><strong>String类的equals()方法：其实是比较两个字符串的内容。</strong></p>
+<h3 id="StringBuilder"><a href="#StringBuilder" class="headerlink" title="StringBuilder"></a>StringBuilder</h3><ol>
+<li><code>String</code> 类型每次操作都会产生新的字符串对象，然后扔掉旧的字符串，容易浪费内存，影响GC效率。</li>
+<li>为了高效的拼接字符串，<code>StringBuilder</code> 是一个可变对象，往其中增加新字符时，不会创建新的对象，切支持链式操作（函数调用返回 <code>this</code>）。</li>
+<li><code>StringBuilder</code> 的方法不是线程安全的（不能同步访问）但执行速度更快，<code>StringBuffer</code> 的方法是线程安全的（同步访问），但同步会带来执行速度的下降。</li>
+</ol>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h3 id="创建多线程"><a href="#创建多线程" class="headerlink" title="创建多线程"></a>创建多线程</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TryThread</span> </span>&#123;</span><br><span class="line">    <span class="comment">// main 方法本身就处在JVM进程创建的主线程中运行</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread tr = <span class="keyword">new</span> Thread(); <span class="comment">// 实例化进程对象</span></span><br><span class="line">        tr.start(); <span class="comment">// 启用新线程</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>新线程的执行需要调用 <code>线程·start();</code> 方法，但默认什么也不做。</li>
+<li>可以从 <code>Thread</code> 类中派生一个自定义类，并覆写 <code>run()</code> 方法。执行 <code>start()</code> 方法的时候会自动调用实例的 <code>run()</code> 方法，主线程和子线程就开始同时运行了。一旦<code>run()</code>方法执行完毕，线程就结束了。</li>
+<li>主线程和子线程的运行顺序是不一定的，由操作系统决定调度顺序。</li>
+<li>可以使用 <code>Thread.slepp(int 毫秒数)</code>，强迫当前线程暂停指定时间。</li>
+<li>直接调用 <code>线程·run();</code> 方法是无效的，只会被当做普通方法执行。必须要通过 <code>start()</code> 方法才能启动新线程，由 JVM 内部实现， <code>start()</code> 方法只能调用一次。</li>
+<li>设置线程优先级 <code>Thread.setPriority(int n)</code> ，1~10，默认值5。</li>
+<li>优先级高的线程被操作系统调度的优先级较高，操作系统对高优先级线程可能调度更频繁，但我们决不能通过设置优先级来确保高优先级的线程一定会先执行。</li>
+</ol>
+<h3 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h3><p>线程的状态：</p>
+<ol>
+<li>New：新创建的线程，尚未执行；</li>
+<li>Runnable：运行中的线程，正在执行<code>run()</code>方法的Java代码；</li>
+<li>Blocked：运行中的线程，因为某些操作被阻塞而挂起；</li>
+<li>Waiting：运行中的线程，因为某些操作在等待中；</li>
+<li>Timed Waiting：运行中的线程，因为执行<code>sleep()</code>方法正在计时等待；</li>
+<li>Terminated：线程已终止，因为<code>run()</code>方法执行完毕。</li>
+</ol>
+<p>线程终止的原因有：</p>
+<ul>
+<li>线程正常终止：<code>run()</code>方法执行到<code>return</code>语句返回；</li>
+<li>线程意外终止：<code>run()</code>方法因为未捕获的异常导致线程终止；</li>
+<li>对某个线程的<code>Thread</code>实例调用<code>stop()</code>方法强制终止（强烈不推荐使用）。</li>
+</ul>
+<p>调用 <code>线程·join()</code> ，可以让一个线程等待指定线程结束后才开始执行。也可以使用 <code>线程·join(long n)</code>指定等待事件，超过时间后不再继续等待。</p>
+<p>如果线程已经结束再调用 <code>线程·join()</code>  会立刻返回。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread tr = <span class="keyword">new</span> Thread();</span><br><span class="line">        tr.start();</span><br><span class="line">  </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            tr.join(); <span class="comment">// 主线程等待 tr 线程结束后才开始执行</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="中断进程"><a href="#中断进程" class="headerlink" title="中断进程"></a>中断进程</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread tr = <span class="keyword">new</span> Thread();</span><br><span class="line">        tr.start();</span><br><span class="line">        </span><br><span class="line">        mt.interrupt(); <span class="comment">// 中断 mt 进程</span></span><br><span class="line"></span><br><span class="line">        tr.join(); <span class="comment">// 主线程等待 tr 线程结束后才开始执行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p><code>线程·interrupt()</code> 方法可以中断指定线程。</p>
+</li>
+<li><p>指定进程中通过 <code>isInterrupted()</code> 检测自身状态是否被中断。</p>
+</li>
+<li><p>如果指定进程处在等待状态中，那么会抛出 <code>InterruptedException</code> 异常，并结束本线程运行。</p>
+</li>
+<li><p>可以设置进程间共享的变量来控制中断： 设置 <code>voladile</code> 关键字，确保每个进程都能读取到更新后的变量值，如： <code>public volatile boolean running = true;</code>。</p>
+</li>
+<li><p>使用 <code>voladile</code> 的原因：</p>
+<ul>
+<li><p>java的内存模型中，分为主内存和工作内存。变量的值保存在主内存中，当线程访问变量时，会获取变量的副本保存在自己的工作内存中。虚拟机会在某个时刻将修改后的变量副本值写会回主内存中，可能会造成其他线程访问该变量时，获取到的仍是旧值。</p>
+<p>使用 <code>voladile</code>关键字的作用：</p>
+</li>
+<li><p>每次访问变量时，总是获取主内存的最新值；</p>
+</li>
+<li><p>每次修改变量后，立刻回写到主内存。</p>
+</li>
+</ul>
+</li>
+<li><p>通过 <code>线程名·running = false;</code> 结合线程中的条件判断，可以控制线程的中断。</p>
+</li>
+</ol>
+<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><ol>
+<li><p>Java程序入口是由JVM启动 <code>main</code> 线程，<code>main</code> 线程由可以启动其他线程。当所有线程运行结束时，JVM退出，进程结束。</p>
+</li>
+<li><p>如果有一个线程没有退出，则 JVM 就不会退出，必须等到所有线程结束才行。</p>
+</li>
+<li><p>对于某些执行定时任务的线程，最后可能没有其他线程能控制它的结束，需要把它设置为<strong>守护进程</strong>。</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Thread t = <span class="keyword">new</span> Thread();</span><br><span class="line"><span class="comment">// 在 t.start() 前设置进程为守护进程</span></span><br><span class="line">t.setDaemon();</span><br><span class="line">t.start();</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>守护线程是指为其他线程服务的线程。当JVM中的非守护线程运行结束后，无论是否还有守护线程，JVM 都会推出。</p>
+</li>
+</ol>
+<h3 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h3><ol>
+<li><p>当多个线程同时运行时，线程的调度由操作系统决定，程序本身无法决定。因此，任何一个线程都有可能在任何指令处被操作系统暂停，然后在某个时间段后继续执行。</p>
+</li>
+<li><p>对于共享的变量，可能会由于多个线程同时对其进行读写导致数据的不一致。需要同步的方式（上锁、解锁），使得对共享变量的修改权限仅供某一个线程使用，待其操作结束后解锁，其他线程才能继续访问修改共享变量。</p>
+</li>
+<li><p>通过 <code>synchronized</code> 关键字设置临界区，解决共享变量正确性问题：</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Object lock = <span class="keyword">new</span> Object();</span><br><span class="line">    <span class="comment">// synchronized 针对锁对象进行上锁</span></span><br><span class="line">    <span class="keyword">synchronized</span>(lock) &#123;</span><br><span class="line">		临界区</span><br><span class="line">    &#125; <span class="comment">// 代码块结束后，自动解锁</span></span><br><span class="line">···</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多个线程要实现同步，必须针对的都是同一个锁对象才行，否则无法同步。</p>
+</li>
+<li><p><code>synchronized</code>会带来性能下降，其中的代码块无法并发操作，且上锁解锁需要消耗一定的时间，降低程序执行效率。 </p>
+</li>
+<li><p>不需要 <code>synchronized</code> 的情况：</p>
+<ol>
+<li>基本类型（<code>long</code>和<code>double</code>除外）赋值，例如：<code>int n = m</code>；</li>
+<li>引用类型赋值，例如：<code>List list = anotherList</code>。</li>
+</ol>
+</li>
+</ol>
+<h3 id="同步方法"><a href="#同步方法" class="headerlink" title="同步方法"></a>同步方法</h3><ol>
+<li><p>让线程自动选择上锁的对象容易导致代码逻辑混乱，不利于封装。在一个类中，可以把 <code>synchronized</code> 锁定对象变为自身实例 <code>this</code>：</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Counter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">            count += n;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dec</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">            count += n;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果一个类被设计为允许多线程正确访问，我们就说这个类就是“线程安全”的（thread-safe)。</p>
+</li>
+<li><p>大部分类，例如<code>ArrayList</code>，都是非线程安全的类，我们不能在多线程中修改它们。但是，如果所有线程都只读取，不写入，那么<code>ArrayList</code>是可以安全地在线程间共享的。</p>
+</li>
+<li><p>用<code>synchronized</code>修饰的方法就是同步方法，它表示<strong>整个方法</strong>都必须用<code>this</code>实例加锁。等价写法：</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123; <span class="comment">// 锁住this</span></span><br><span class="line">        count += n;</span><br><span class="line">    &#125; <span class="comment">// 解锁</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123; <span class="comment">// 锁住this</span></span><br><span class="line">    count += n;</span><br><span class="line">&#125; <span class="comment">// 解锁</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于类的静态方法添加 <code>synchronized</code> 修饰符，锁住的是该类的 <code>class</code> 实例：</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 相当于</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Counter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(Counter.class) &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="可重入锁"><a href="#可重入锁" class="headerlink" title="可重入锁"></a>可重入锁</h3><ol>
+<li><p>Java的线程锁是可重入的锁。</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Counter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            dec(-n);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            count += n;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">dec</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        count += n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 观察<code>synchronized</code>修饰的<code>add()</code>方法，一旦线程执行到<code>add()</code>方法内部，说明它已经获取了当前实例的<code>this</code>锁。如果传入的<code>n &lt; 0</code>，将在<code>add()</code>方法内部调用<code>dec()</code>方法。由于<code>dec()</code>方法也需要获取<code>this</code>锁。</p>
+<p> JVM允许同一个线程重复获取同一个锁，这种能被同一个线程反复获取的锁，就叫做可重入锁。</p>
+<p> 由于Java的线程锁是可重入锁，所以，获取锁的时候，不但要判断是否是第一次获取，还要记录这是第几次获取。每获取一次锁，记录+1，每退出<code>synchronized</code>块，记录-1，减到0的时候，才会真正释放锁。</p>
+</li>
+</ol>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>在 Java 中，如果一个 Java 对象可以在内部持有若干其他 Java 对象，并对外提供访问接口，我们把这种 Java 对象称为集合。</p>
+<p>Java 标准库自带的 <code>java.util</code> 包主要提供了以下三种集合：</p>
+<ul>
+<li><code>List</code>：一种有序列表的集合。</li>
+<li><code>Set</code>：一种保证没有重复元素的集合。</li>
+<li><code>Map</code>：一种通过键值（key-value）查找的映射表集合。</li>
+</ul>
+<p>Java集合的设计有几个特点：一是实现了接口和实现类相分离，例如，有序表的接口是<code>List</code>，具体的实现类有<code>ArrayList</code>，<code>LinkedList</code>等，二是支持泛型，我们可以限制在一个集合中只能放入同一种数据类型的元素。</p>
+<p>最后，Java访问集合总是通过统一的方式——迭代器（Iterator）来实现，它最明显的好处在于无需知道集合内部元素是按什么方式存储的。</p>
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p><code>List</code> 是最基础的集合，它是一种<strong>有序链表</strong>。</p>
+<p><code>List</code> 行为几乎和数组一样，按放入的顺序保存元素，可以通过索引确认位置，索引从 <code>0</code> 开始。</p>
+<p>实际上，<code>ArrayList</code>在内部使用了数组来存储所有元素。</p>
+<p>特点：</p>
+<ul>
+<li><code>List</code>接口允许我们添加重复的元素，即<code>List</code>内部的元素可以重复。</li>
+<li><code>List</code>还允许添加<code>null</code>。</li>
+</ul>
+<p>创建 <code>List</code> ，使用 <code>List.of()</code> 方法。但不接受 <code>null</code> 值，如果传入 <code>null</code>，会抛出<code>NullPointerException</code>异常。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; list = List.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>List.of()</code> 方法生成的是 <code>List</code> 是只读的，不能进行修改。</p>
+<p>我们要始终坚持使用迭代器<code>Iterator</code>来访问<code>List</code>。<code>Iterator</code>本身也是一个对象，但它是由<code>List</code>的实例调用<code>iterator()</code>方法的时候创建的。<code>Iterator</code>对象知道如何遍历一个<code>List</code>，并且不同的<code>List</code>类型，返回的<code>Iterator</code>对象实现也是不同的，但总是具有最高的访问效率。</p>
+<p><code>Iterator</code>对象有两个方法：<code>boolean hasNext()</code>判断是否有下一个元素，<code>E next()</code>返回下一个元素。因此，使用<code>Iterator</code>遍历<code>List</code>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; list = List.of(<span class="string">"apple"</span>, <span class="string">"pear"</span>, <span class="string">"banana"</span>);</span><br><span class="line">        <span class="keyword">for</span> (Iterator&lt;String&gt; it = list.iterator(); it.hasNext(); ) &#123;</span><br><span class="line">            String s = it.next();</span><br><span class="line">            System.out.println(s);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 用 for each 循环同样效果，更简洁</span></span><br><span class="line">         <span class="keyword">for</span> (String s : list) &#123;</span><br><span class="line">            System.out.println(s);</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在<code>List</code>中查找元素时，<code>List</code>的实现类通过元素的<code>equals()</code>方法比较两个元素是否相等，因此，放入的元素必须正确覆写<code>equals()</code>方法，Java标准库提供的<code>String</code>、<code>Integer</code>等已经覆写了<code>equals()</code>方法；</li>
+<li>编写<code>equals()</code>方法可借助<code>Objects.equals()</code>判断。</li>
+<li>如果不在<code>List</code>中查找元素，就不必覆写<code>equals()</code>方法。</li>
+</ul>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p><code>Map</code>这种键值（key-value）映射表的数据结构，作用就是能高效通过<code>key</code>快速查找<code>value</code>（元素）。</p>
+<p><code>Map</code>是一种键-值映射表，当我们调用<code>put(K key, V value)</code>方法时，就把<code>key</code>和<code>value</code>做了映射并放入<code>Map</code>。当我们调用<code>V get(K key)</code>时，就可以通过<code>key</code>获取到对应的<code>value</code>。如果<code>key</code>不存在，则返回<code>null</code>。和<code>List</code>类似，<code>Map</code>也是一个接口，最常用的实现类是<code>HashMap</code>。</p>
+<p><code>Map</code>中不存在重复的<code>key</code>，因为放入相同的<code>key</code>，只会把原有的<code>key-value</code>对应的<code>value</code>给替换掉。返回被删除的旧的<code>value</code>，否则，返回<code>null</code>。</p>
+<p>遍历Map，对<code>Map</code>来说，要遍历<code>key</code>可以使用<code>for each</code>循环遍历<code>Map</code>实例的<code>keySet()</code>方法返回的<code>Set</code>集合，它包含不重复的<code>key</code>的集合：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"apple"</span>, <span class="number">123</span>);</span><br><span class="line">        map.put(<span class="string">"pear"</span>, <span class="number">456</span>);</span><br><span class="line">        map.put(<span class="string">"banana"</span>, <span class="number">789</span>);</span><br><span class="line">        <span class="keyword">for</span> (String key : map.keySet()) &#123;</span><br><span class="line">            Integer value = map.get(key);</span><br><span class="line">            System.out.println(key + <span class="string">" = "</span> + value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时遍历<code>key</code>和<code>value</code>可以使用<code>for each</code>循环遍历<code>Map</code>对象的<code>entrySet()</code>集合，它包含每一个<code>key-value</code>映射：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (Map.Entry&lt;String, Integer&gt; entry : map.entrySet()) &#123;</span><br><span class="line">            String key = entry.getKey();</span><br><span class="line">            Integer value = entry.getValue();</span><br><span class="line">            System.out.println(key + <span class="string">" = "</span> + value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL学习笔记</title>
+    <url>/2020/03/21/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="获取帮助信息"><a href="#获取帮助信息" class="headerlink" title="获取帮助信息"></a>获取帮助信息</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 方式 1</span></span><br><span class="line">? &lt;关键字&gt;</span><br><span class="line"><span class="comment"># 方式 2</span></span><br><span class="line"><span class="built_in">help</span> &lt;关键字&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="展示所有数据库"><a href="#展示所有数据库" class="headerlink" title="展示所有数据库"></a>展示所有数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SHOW databases;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用指定数据库"><a href="#使用指定数据库" class="headerlink" title="使用指定数据库"></a>使用指定数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">USE database_name;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看当前数据库"><a href="#查看当前数据库" class="headerlink" title="查看当前数据库"></a>查看当前数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT database();</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看数据库版本"><a href="#查看数据库版本" class="headerlink" title="查看数据库版本"></a>查看数据库版本</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT version();</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看当前数据库的所有表"><a href="#查看当前数据库的所有表" class="headerlink" title="查看当前数据库的所有表"></a>查看当前数据库的所有表</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 方法1</span><br><span class="line">SHOW tables;</span><br><span class="line">-- 方法 2</span><br><span class="line">SHOW tables FROM databse_name;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看指定表的结构"><a href="#查看指定表的结构" class="headerlink" title="查看指定表的结构"></a>查看指定表的结构</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DESC table_name;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE table table_name (</span><br><span class="line">    name_1 int,</span><br><span class="line">    name_2 varchar(20)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h3 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">INSERT INTO table_name (column_name1, column_name2) VALUES (value1, value2);</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DELETE FROM table_name where value1=foo;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 特点</span><br><span class="line"># 查询列表可以是：表中的字段、常量、表达式、函数</span><br><span class="line">SELECT column_name FROM table_name;</span><br><span class="line"># 字段</span><br><span class="line">SELECT &apos;str&apos;;</span><br><span class="line">-- 常量</span><br><span class="line">SELECT 100;</span><br><span class="line">-- 表达式</span><br><span class="line">SELECT 99+1;</span><br><span class="line">-- 函数</span><br><span class="line">SELECT version();</span><br></pre></td></tr></table></figure>
+
+<h3 id="起别名"><a href="#起别名" class="headerlink" title="起别名"></a>起别名</h3><p>给查询字段起别名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 方式 1：关键字 AS</span><br><span class="line">SELECT last_name AS 姓 FROM table_name;</span><br><span class="line">-- 方式 2：空格后直接用字符</span><br><span class="line">SELECT last_name 姓 FROM table_name;</span><br><span class="line">-- 特殊情况：别名中有空格，用双引号包裹</span><br><span class="line">SELECT last_name AS &quot;out put&quot; FROM table_name;</span><br></pre></td></tr></table></figure>
+
+<p>给表起别名</p>
+<ul>
+<li><p>方式： 基本方式跟查询字段别名一样</p>
+</li>
+<li><p>位置：FROM table_name 表名 1, table_name 表名 2, …</p>
+</li>
+<li><p>限制：给表起别名后，不能在查询字段使用原表名，必须使用别名来限定字段</p>
+</li>
+</ul>
+<h3 id="去重"><a href="#去重" class="headerlink" title="去重"></a>去重</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT DISTINCT column_name FROM table_name;</span><br></pre></td></tr></table></figure>
+
+<h3 id="加号的作用"><a href="#加号的作用" class="headerlink" title="加号的作用"></a>加号的作用</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 1.连接两个数值型，做加法运算</span><br><span class="line">SELECT 99+1;</span><br><span class="line">-- 2.字符型+数值型，字符型可转为数字型？</span><br><span class="line">-- 可以，则字符型开头的连续数字参与运算</span><br><span class="line">SELECT &apos;99abc&apos;+1;  ==&gt; 99+1 ==&gt; 100</span><br><span class="line">-- 不可以，则字符型的数值为 0，继续运算</span><br><span class="line">SELECT &apos;abc99&apos;+1; ==&gt; 0+1 ==&gt; 1</span><br><span class="line">-- 如果其中一方为 NULL，则结果肯定为 NULL</span><br><span class="line">SELECT NULL+99; ==&gt; NULL</span><br></pre></td></tr></table></figure>
+
+<h3 id="列表值拼接"><a href="#列表值拼接" class="headerlink" title="列表值拼接"></a>列表值拼接</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 使用 CONCAT(str1, str2, ...)，可以将多个列的查询结果合并为一个列</span><br><span class="line">SELECT CONCAT(first_name, last_name) AS &apos;姓名&apos; FROM table_name;</span><br></pre></td></tr></table></figure>
+
+<h3 id="判断值是否为NULL，并替换"><a href="#判断值是否为NULL，并替换" class="headerlink" title="判断值是否为NULL，并替换"></a>判断值是否为NULL，并替换</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- IFNULL(可能为 NULL 的值, 替换值);</span><br><span class="line">IFNULL(column_name, new_value);</span><br></pre></td></tr></table></figure>
+
+<h3 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT column_name FROM table_name WHERE conditions;</span><br><span class="line">-- 筛选条件分类</span><br><span class="line">-- 1.简单条件运算符</span><br><span class="line">-- &gt; &lt; = != &lt;&gt; &gt;= &lt;= &lt;=&gt;(安全等于)，注意：&quot;不等于&quot;推荐使用&lt;&gt;，!=可能存在兼容性问题</span><br><span class="line">-- 不等于号不能用于判断值是否为 NULL 的情况，只能用 IS NULL / IS NOT NULL</span><br><span class="line">-- 安全等于可以用来判断值是否为 NULL</span><br><span class="line"></span><br><span class="line">-- 2.逻辑表达式，用于连接条件表达式</span><br><span class="line">-- NOT AND OR</span><br><span class="line"></span><br><span class="line">-- 3.模糊查询</span><br><span class="line">-- LIKE / BETWEEN AND / IN / IS NULL / IS NOT NULL</span><br><span class="line">-- 注意：LIKE 相当于正则匹配，配合通配符使用</span><br><span class="line">-- 注意：BETWEEN 100 AND 200 搜索的范围包含100和200</span><br><span class="line">-- 遇到需要转义的字符直接在字符串内加斜杠，如 &apos;a\_bc&apos; ==&gt; &apos;a_bc&apos;，或使用 ESCAPE。</span><br><span class="line">SELECT name FROM user WHERE name IN (&apos;abc&apos;, &apos;def&apos;, &apos;ghi&apos;);</span><br><span class="line">-- IN 用于将可能的结果值列出来，提高简洁度</span><br></pre></td></tr></table></figure>
+
+<h3 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 1. %代表零到多个字符</span><br><span class="line">-- 2. _代表一个字符</span><br></pre></td></tr></table></figure>
+
+<h3 id="ESCAPE-转义字符"><a href="#ESCAPE-转义字符" class="headerlink" title="ESCAPE 转义字符"></a>ESCAPE 转义字符</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT name WHERE user LIKE &apos;a^_bc&apos; ESCAPE &apos;^&apos;;</span><br><span class="line">-- ESCAPE 后的任意符号用作转义符号，表示当字符串中出现在该符号后面的字符保持原意。</span><br></pre></td></tr></table></figure>
+
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- ORDER BY column_name ASC | DESC;</span><br><span class="line">-- 升序排序（默认）</span><br><span class="line">SELECT salary FROM user ORDER BY salary ASC;</span><br><span class="line">-- 降序排序</span><br><span class="line">SELECT salary FROM user ORDER BY salary DESC;</span><br><span class="line"># 1.支持别名排序</span><br><span class="line">SELECT salary AS &apos;工资&apos; FROM user ORDER BY &apos;工资&apos; DESC;</span><br><span class="line"># 2.支持函数</span><br><span class="line">SELECT last_name, salary FROM user ORDER BY LENGTH(last_name) DESC;</span><br><span class="line"># 3.支持表达式</span><br><span class="line">SELECT salary FROM user ORDER BY salary+100 DESC;</span><br><span class="line"># 4.支持多个字段，按从左往右的优先级排序</span><br><span class="line">SELECT </span><br><span class="line">	last_name, </span><br><span class="line">	salary </span><br><span class="line">FROM </span><br><span class="line">	user </span><br><span class="line">ORDER BY </span><br><span class="line">	LENGTH(last_name) DESC, </span><br><span class="line">	salary DESC;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># GROUP BY column_name</span><br><span class="line"># 分组是按表中某些相同的值合并在一起用于分组函数进行统计</span><br><span class="line"></span><br><span class="line"># 一般来说，你按照什么分组，就查询什么东西</span><br><span class="line">-- SELECT department FROM employee GROUP BY department;</span><br><span class="line"></span><br><span class="line"># 对分组后的结果进行查询</span><br><span class="line">GROUP_CONCAT();</span><br><span class="line"></span><br><span class="line"># 对得到的分组进行进一步筛选出符合条件的分组</span><br><span class="line">HAVING MAX(salary)&gt;5000;</span><br><span class="line"></span><br><span class="line"># GROUP BY 后可使用分组函数和 SELECT 处定义的别名，HAVING 同理</span><br><span class="line"># GROUP BY 后可接多个字段，表示多个字段的值一致的信息才能分组</span><br></pre></td></tr></table></figure>
+
+<h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><p>有 sql92 语法和 sql99 语法</p>
+<p>按功能分类：</p>
+<ul>
+<li>内连接：等值连接、非等值连接、自连接</li>
+<li>外连接：左外连接、右外连接、全外连接</li>
+<li>交叉连接：笛卡尔乘积，是两个表中记录的全部组合的结果</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># sql92 语法</span><br><span class="line"># 1.等值连接，把两张有关联的表，即有共同字段的表进行拼合，选出符合条件的记录</span><br><span class="line">SELECT stu_name, class_name</span><br><span class="line">FROM stu s, class c</span><br><span class="line">WHERE s.id=c.id;</span><br><span class="line">ORDER BY s.id DESC;</span><br><span class="line"></span><br><span class="line"># 2.非等值连接，两张表中没有直接共同的字段，但可以根据其他关系进行匹配</span><br><span class="line">SELECT salary, salary_level</span><br><span class="line">FROM employees e, job_grade j</span><br><span class="line">WHERE e.salary BETWEEN j.lowest_level AND j.highest_level;</span><br><span class="line"></span><br><span class="line"># 3.自连接，把自身当做两张表，根据自身的一个字段去寻找另一个字段，需要用到表别名</span><br><span class="line">SELECT employee_name, manager_name</span><br><span class="line">FROM employee e, employee m</span><br><span class="line">WHERE e.manager_id=m.employee.id;</span><br><span class="line"></span><br><span class="line"># sql99 语法</span><br><span class="line"># 内连接原理和效果同 sql92，当多表连接查询时，每连接一个表就写一行 INNER JOIN ON</span><br><span class="line">SELECT stu_name, class_name</span><br><span class="line">FROM stu s</span><br><span class="line">INNER JOIN class c</span><br><span class="line">ON s.id=c.id</span><br><span class="line"></span><br><span class="line"># 外连接的语句：</span><br><span class="line">LEFT OUTER JOIN ON / LEFT JOIN ON</span><br><span class="line">RIGHT OUTER JOIN ON / RIGHT JOIN ON</span><br><span class="line">-- 左连接中 LEFT 左边为主表，右连接中 RIGHT 右边为主表</span><br><span class="line">-- 查询结果为：主表的全部记录+右边中和主表匹配的记录，右表中无匹配记录的地方用 NULL 替代，</span><br><span class="line">-- 即查询结构为，内连接结果+左边剩余记录+右边 NULL 值</span><br></pre></td></tr></table></figure>
+
+<h3 id="子查询-待强化理解"><a href="#子查询-待强化理解" class="headerlink" title="子查询(待强化理解)"></a>子查询(待强化理解)</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 1.WHERE 后面的标量子查询，子查询用括号括起</span><br><span class="line">-- 标量子查询的结果为一行一列</span><br><span class="line">SELECT salary</span><br><span class="line">FROM employees</span><br><span class="line">WHERE job_id=(</span><br><span class="line">	SELECT job_id</span><br><span class="line">    FROM employee</span><br><span class="line">    WHERE last_name=&apos;jack&apos;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"># 2.WHERE 后面的列子查询，子查询用括号括起</span><br><span class="line">-- 列子查询的结果为一列多行</span><br><span class="line">-- 可以用于比较列查询结果的关键字为 IN / NOT IN / ANY / ALL</span><br><span class="line">SELECT employee_name</span><br><span class="line">FROM employees</span><br><span class="line">WHERE salary &gt; ANY(</span><br><span class="line">	SELECT salary</span><br><span class="line">    FROM employees</span><br><span class="line">    WHERE job_id=&apos;100&apos;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"># 3.SELECT 中的子查询，子查询用括号括起</span><br><span class="line">-- 查询过程：先忽略子查询正常进行，对于每个查询结果中的记录输入子查询的条件中进行匹配，将结果单独置为一列</span><br><span class="line">#案例：查询每个部门的员工个数</span><br><span class="line">SELECT d.*,(</span><br><span class="line">    SELECT COUNT(*)</span><br><span class="line">    FROM employees</span><br><span class="line">    WHERE employees.`department_id`=d.department_id</span><br><span class="line">)</span><br><span class="line">FROM departments d;</span><br><span class="line"></span><br><span class="line"># 4.FROM 后面的子查询</span><br><span class="line"># 5.EXITS 后面的子查询</span><br></pre></td></tr></table></figure>
+
+<h3 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 关键字 LIMIT，放在语句最末尾</span><br><span class="line">-- 格式：起始坐标,查询条数，如</span><br><span class="line">-- LIMIT 0,10，表示从第一条记录开始，要显示 10 条记录</span><br></pre></td></tr></table></figure>
+
+<h3 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 关键字 UNION，一般用于相互间没有直接关系的查询，但查询的信息一致，查询结果会在一个垂直往下拼接</span><br><span class="line"># 使用格式:</span><br><span class="line">查询语句1</span><br><span class="line">UNION</span><br><span class="line">查询语句2;</span><br><span class="line"># 默认情况下，UNION 会合并重复项，如果不需要合并则使用 UNION ALL</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="常用字符函数"><a href="#常用字符函数" class="headerlink" title="常用字符函数"></a>常用字符函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- LENGTH()函数统计的是字符的总字节数，字母 1 个字节，汉字 3 个字节</span><br><span class="line">-- 字符函数的索引从 1 开始，而不是 0</span><br><span class="line">LENGTH() CONCAT() UPPER() LOWER() SUBSTR() </span><br><span class="line">LPAD() RPAD() REPLACE() TRIM() INSTR()</span><br></pre></td></tr></table></figure>
+
+<h3 id="常用数学函数"><a href="#常用数学函数" class="headerlink" title="常用数学函数"></a>常用数学函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ROUND() CEIL() FLOOR() TRUNCATE() MOD()</span><br></pre></td></tr></table></figure>
+
+<h3 id="常用日期函数"><a href="#常用日期函数" class="headerlink" title="常用日期函数"></a>常用日期函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NOW() YEAR() MONTH() DAY() CURYEAR() CURTIME()</span><br><span class="line">STR_TO_DATE() DATE_FORMAT()</span><br></pre></td></tr></table></figure>
+
+<h3 id="流程控制函数"><a href="#流程控制函数" class="headerlink" title="流程控制函数"></a>流程控制函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># IF 函数</span><br><span class="line">SELECT IF(1&gt;2,2,3); ==&gt; 3</span><br><span class="line">SELECT IF(1&lt;2,&apos;YES&apos;,&apos;NO&apos;); ==&gt; &apos;YES&apos;</span><br><span class="line">SELECT IF(STRCMP(&apos;test&apos;,&apos;test1&apos;),&apos;no&apos;,&apos;yes&apos;); ==&gt; &apos;no&apos;</span><br><span class="line"># CASE 函数</span><br><span class="line">SELECT </span><br><span class="line">CASE 1 </span><br><span class="line">WHEN 1 THEN &apos;one&apos;</span><br><span class="line">WHEN 2 THEN &apos;two&apos;</span><br><span class="line">ELSE &apos;more&apos; </span><br><span class="line">END;</span><br><span class="line">==&gt; &apos;one&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分组函数"><a href="#分组函数" class="headerlink" title="分组函数"></a>分组函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># SUM() AVG() MAX() MIN() COUNT()</span><br><span class="line"># 特点：把多个行的记录统计为一行</span><br><span class="line">-- 1.SUM()和AVG()一般用于处理数值型，MAX()、MIN()和 COUNT()可以处理任何类型</span><br><span class="line">-- 2.以上分组函数都忽略 NULL 值</span><br><span class="line">-- 3.以上分组函数中可以搭配 DISTINCT 使用，如 SELECT SUM(DISTINCT salary);</span><br><span class="line">-- 4.COUNT(*)可以用来统计不全为 NULL 值的总行数，如 SELECT COUNT(*) FROM user;</span><br><span class="line">-- 5.和分组函数一同查询使用的字段要求是 GROUP BY 后的字段</span><br></pre></td></tr></table></figure>
+
+<p>分组查询的筛选条件分为两类：</p>
+<ol>
+<li>分组前筛选<ul>
+<li>数据源：原始表</li>
+<li>位置：GOUP BY 之前</li>
+<li>关键字：WHERE</li>
+</ul>
+</li>
+<li>分组后筛选<ul>
+<li>数据源：分组后的结合集</li>
+<li>位置：GOUP BY 之后</li>
+<li>关键字：HAVING</li>
+</ul>
+</li>
+</ol>
+<p>分组函数做条件肯定是放在 HAVING 子句中</p>
+<p>尽量使用分组前筛选</p>
+<h2 id="表的修改"><a href="#表的修改" class="headerlink" title="表的修改"></a>表的修改</h2><h3 id="插入数据-1"><a href="#插入数据-1" class="headerlink" title="插入数据"></a>插入数据</h3><p>方法一:  VALUES 关键字</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">INSERT INTO student(id,name,address) VALUES (1,&apos;liming&apos;,&apos;china&apos;)</span><br><span class="line"># 支持多行插入</span><br><span class="line">INSERT INTO student (id,NAME,address) </span><br><span class="line">VALUES (1,&apos;liming&apos;,&apos;china&apos;),(2,&apos;liming&apos;,&apos;china&apos;),(3,&apos;liming&apos;,&apos;china&apos;);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>对于列值可以为NULL 的，要么 VALUES 中相应填写 NULL，或者不要把这个列名写出来</li>
+<li>列名可以不写，但 VALUES 将按表中的列位置依次赋值，包括 NULL 的列</li>
+<li>列名和 VALUES 中的值可以不按表中的列位置顺序，但列名和 VALUES 相对应</li>
+</ol>
+<p>方法二：SET 关键字</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">INSERT INTO student</span><br><span class="line">SET col1=value1, col2=value2, ...;</span><br></pre></td></tr></table></figure>
+
+<h3 id="单表的更新"><a href="#单表的更新" class="headerlink" title="单表的更新"></a>单表的更新</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">UPDATE student SET col1=value1,col2=value2 WHERE id=1;</span><br></pre></td></tr></table></figure>
+
+<h3 id="多表的更新"><a href="#多表的更新" class="headerlink" title="多表的更新"></a>多表的更新</h3><h3 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h3><p>方法 1：DELETE 语句删除</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 1.sql92语法删除记录</span><br><span class="line">DELETE FROM student WHERE stu_name=&apos;liming&apos;;</span><br><span class="line"></span><br><span class="line"># 2.sql99语法删除记录</span><br><span class="line">DELETE bo, b</span><br><span class="line">FROM boys bo</span><br><span class="line">INNER JOIN beauty b</span><br><span class="line">ON bo.id=beauty.id</span><br><span class="line">WHERE bo.name=&apos;liming&apos;&apos;</span><br></pre></td></tr></table></figure>
+
+<p>方法 2：TRUNCATE 语句删除</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TRUNCATE TABLE boys;</span><br></pre></td></tr></table></figure>
+
+<p>区别：</p>
+<ol>
+<li>DELETE 可以加 WHERE 条件，TRUNCATE 不能加</li>
+<li>TRUNCATE 删除效率高一点</li>
+<li>用 DELETE 删除表的记录，再插入数据时，自增长列的值从上次断点开始；而 TRUNCATE 删除后重新从 1 开始增长。从效果上看，TRUNCATE 更像是全部抹除，DELETE 只是表面清空。</li>
+<li>TRUNCATE 删除后没有返回值(0行受影响)，DELETE 删除有返回值(n 行受影响)</li>
+<li>TRUNCATE 删除不能回滚，DELETE 删除可以回滚</li>
+</ol>
+<h3 id="库的操作"><a href="#库的操作" class="headerlink" title="库的操作"></a>库的操作</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 1.创建库</span><br><span class="line">CREATE DATABASE books;</span><br><span class="line">-- 当库不存在时创建</span><br><span class="line">CREATE DATABASE IF NOT EXISTS books;</span><br><span class="line"></span><br><span class="line"># 2.更新库的字符集</span><br><span class="line">ALTER DATABASE books CHARACTER SET gbk;</span><br><span class="line"></span><br><span class="line"># 3.删除库</span><br><span class="line">DROP DATABASE IF EXISTS books;</span><br></pre></td></tr></table></figure>
+
+<h3 id="表的操作"><a href="#表的操作" class="headerlink" title="表的操作"></a>表的操作</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 1.创建表</span><br><span class="line">-- 当表不存在时</span><br><span class="line">CREATE TABLE student(stu_id INT, stu_name VARCHAR(10));</span><br><span class="line">-- 当判断表是否存在时</span><br><span class="line">CREATE TABLE IF NOT EXISTS student(stu_id INT, stu_name VARCHAR(10);</span><br><span class="line"></span><br><span class="line"># 2.表的修改</span><br><span class="line">-- 1.修改列名</span><br><span class="line">ALTER TABLE student CHANGE COLUMN stu_id id DOUBLE;</span><br><span class="line">-- 2.修改列的类型或约束</span><br><span class="line">ALTER TABLE student MODIFY COLUMN id INT;</span><br><span class="line">-- 3.添加新列</span><br><span class="line">ALTER TABLE student ADD COLUMN classes VARCHAR(30);</span><br><span class="line">-- 4.删除列</span><br><span class="line">ALTER TABLE student DROP COLUMN classes;</span><br><span class="line">-- 5.修改表名</span><br><span class="line">ALTER TABLE student RENAME TO student_info;</span><br><span class="line"></span><br><span class="line"># 3.删除表</span><br><span class="line">-- 当表存在时</span><br><span class="line">DROP TABLE student;</span><br><span class="line">-- 需要判断是否存在</span><br><span class="line">DROP TABLE IF EXISTS student;</span><br><span class="line">                                   </span><br><span class="line"># 4.复制表</span><br><span class="line">-- 1.复制表的结构</span><br><span class="line">CREATE TABLE copy LIKE student;</span><br><span class="line">-- 2.复制表的结构+数据</span><br><span class="line">CREATE TABLE copy2 SELECT * FROM student;</span><br><span class="line">-- 3.复制部分数据</span><br><span class="line">CREATE TABLE copy3 SELECT * FROM student WHERE id=1;</span><br><span class="line">-- 4.复制部分字段</span><br><span class="line">CREATE TABLE copy4 SELECT * FROM student WHERE 0;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h3><table>
+<thead>
+<tr>
+<th>分类</th>
+<th>字节数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>tinyint</td>
+<td>1</td>
+</tr>
+<tr>
+<td>smallint</td>
+<td>2</td>
+</tr>
+<tr>
+<td>mediumint</td>
+<td>3</td>
+</tr>
+<tr>
+<td>int/integer</td>
+<td>4</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>8</td>
+</tr>
+</tbody></table>
+<ol>
+<li>所有整型的类型表示的数据范围都是确定好的，不能人为改变</li>
+<li>诸如 int(3) 之类后面的数字，表示的是 <strong>要显示的数字长度，配合字段关键字 ZEROFILL，可以实现当输入的数字位数小于指定长度时，前面用 0 填充。</strong>例如 id INT(8) ZEROFILL，插入 id = 13，则，数据库中的效果为 00000013。</li>
+</ol>
+<h3 id="浮点型和定点型"><a href="#浮点型和定点型" class="headerlink" title="浮点型和定点型"></a>浮点型和定点型</h3><ol>
+<li><code>FLOAT(M, D)</code>，<code>DOUBLE(M, D)</code>，<code>DECIMAL(M, D)</code></li>
+<li>M 代表数字位数总长度， D 代表小数点后的位数</li>
+<li>小数位数超过 D 的范围时，会自动四舍五入</li>
+<li>数字总长度超过 M 时，会报错误。</li>
+<li>当 D 为 1 时，输入整数在存储时也会带有<code>.0</code>结尾。</li>
+<li>当 FLOAT 和 DOUBLE 不指定时，自动根据插入的数值确定精度</li>
+<li><code>DECIMAL</code> 默认 M 为 10，D 为 0，精度较高。</li>
+</ol>
+<h3 id="字符型"><a href="#字符型" class="headerlink" title="字符型"></a>字符型</h3><ol>
+<li><code>CHAR(M)</code> 和 <code>VARCHAR(M)</code> 都表示限定最大字符数（一个汉字也是一个字符）</li>
+<li><code>CHAR</code> 固定占用 M 个字符长度的空间</li>
+<li><code>VARCHAR</code> 根据实际字符长度占用空间</li>
+</ol>
+<h3 id="日期型"><a href="#日期型" class="headerlink" title="日期型"></a>日期型</h3><ol>
+<li><code>YEAR</code> 年份</li>
+<li><code>DATE</code> 年月日</li>
+<li><code>TIME</code> 时分秒</li>
+<li><code>DATETIME</code> 年月日时分秒</li>
+<li><code>TIMESTAMP</code> 根据不同时区显示不同时间的时间戳</li>
+</ol>
+<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><h3 id="约束类型"><a href="#约束类型" class="headerlink" title="约束类型"></a>约束类型</h3><ol>
+<li><code>NOT NULL</code>：限制字段值不能为空</li>
+<li><code>DEFAULT</code>：保证该字段有默认值</li>
+<li><code>CHECK</code>：检查约束（MySQL不支持）</li>
+<li><code>UNIQUE</code>：保证该字段值唯一，可以为空（但 NULL 也只能输入一次，不能存在重复的 NULL）</li>
+<li><code>PRIMARY KEY</code>：主键，用于保证该字段的值具有唯一性，且非空</li>
+<li><code>FOREIGN KEY</code>：外键，用于限制两个表的关系，用于保证该字段的值必须来自主表的关联列的值，即该列中的值必须在主表中存在，不能自己输入任意值。</li>
+</ol>
+<h3 id="约束的添加分类"><a href="#约束的添加分类" class="headerlink" title="约束的添加分类"></a>约束的添加分类</h3><ol>
+<li>列级约束：六大约束语法上都支持，但外键不支持</li>
+<li>表级约束：除了非空、默认，其他的都支持</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE TABLE table_name (</span><br><span class="line">	字段名 字段类型 列级约束，</span><br><span class="line">    字段名 字段类型 列级约束，</span><br><span class="line">    表级约束</span><br><span class="line">    -- 表级约束格式如下</span><br><span class="line">    CONSTRAINT pk PRIMARY KEY(当前表某列名1, 列表名2, ...),</span><br><span class="line">    CONSTRAINT un UNIQUE(当前表某列名1, 列名2, ...)</span><br><span class="line">    CONSTRAINT fk_tb1_tb2 FOREIGN KEY(当前表某列名) REFERENCES 主表名(列名)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>当设置主键组时，当且仅当主键组的数据<strong>全相同</strong>时会错误，否则可以插入。</li>
+<li>一个表中至多只能有一个主键，<code>UNIQUE</code> 可以有多个。</li>
+<li>外键只能通过表级约束设置才能生效。</li>
+<li>删除数据时，先从从表删除，再删主表。</li>
+<li>外键关联的主表的列，类型相同或兼容，必须有 <code>PRIMARY KEY</code> 或者 <code>UNIQUE</code> 约束条件。</li>
+<li>约束条件的增加/删除：<code>ALTER TABLE table_name MODIFY COLUMN 列名 约束条件</code>;</li>
+</ol>
+<h3 id="标识列-AUTO-INCREMENT"><a href="#标识列-AUTO-INCREMENT" class="headerlink" title="标识列 AUTO_INCREMENT"></a>标识列 AUTO_INCREMENT</h3><ol>
+<li><p>使用形式</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE TABLE tbl (</span><br><span class="line">	id INT PRIMARY KEY AUTO_INCREMENT,</span><br><span class="line">    stu_name VARCHAR(10)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>AUTO_INCREMENT</code> 只能用在数值型</p>
+</li>
+<li><p><code>AUTO_INCREMENT</code> 只能设置在带有 KEY 类型的列后面（如主键、外键、唯一键）</p>
+</li>
+</ol>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h3 id="事务的特性"><a href="#事务的特性" class="headerlink" title="事务的特性"></a>事务的特性</h3><ol>
+<li>原子性：操作语句不能再分割，要么执行，要么不执行</li>
+<li>一致性：事务执行的前后的整体状态是一致的</li>
+<li>隔离性：事务之间的操作不会互相影响</li>
+<li>持久性：事务完成后，结果是保持不变的</li>
+</ol>
+<h3 id="事务的使用"><a href="#事务的使用" class="headerlink" title="事务的使用"></a>事务的使用</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 1. 事务的使用</span><br><span class="line">SET autocommit=0; # 关闭自动提交的特性</span><br><span class="line">START TRANSACTION;</span><br><span class="line">操作语句 1(SELECT / DELETE / UPDATE);</span><br><span class="line">操作语句 2(SELECT / DELETE / UPDATE);</span><br><span class="line">...,</span><br><span class="line">commit;</span><br><span class="line"></span><br><span class="line"># 2. 回滚操作</span><br><span class="line">SET autocommit=0;</span><br><span class="line">START TRANSACTION;</span><br><span class="line">操作语句...</span><br><span class="line">-- DELETE 语句支持回滚</span><br><span class="line">-- TRUNCATE 语句不支持回滚，全部清空</span><br><span class="line">ROLLBACK; # 撤销事务中的所有操作</span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+
+<h3 id="事务并发的问题"><a href="#事务并发的问题" class="headerlink" title="事务并发的问题"></a>事务并发的问题</h3><ol>
+<li>脏读：事务 1 更改了数据但没 COMMIT，事务 2 读取了到了事务 1 更改后的数据。如果事务 1回滚了，则事务 2 读到的数据是错误的。</li>
+<li>不可重复读：事务 1 更改了数据但没 COMMIT，事务 2 读取两次数据得到的结果不一样。</li>
+<li>幻读：事务1 更改了数据但没 COMMIT，事务 2 读取数据后，事务 1 又继续插入了新的行。</li>
+</ol>
+<h3 id="事务回滚"><a href="#事务回滚" class="headerlink" title="事务回滚"></a>事务回滚</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SET autocommit=0;</span><br><span class="line">START TRANSACTION;</span><br><span class="line">操作语句;</span><br><span class="line">SAVEPOINT a;</span><br><span class="line">操作语句;</span><br><span class="line">...</span><br><span class="line">ROLLBACK TO a; # 将操作回退到保存点 a 的位置</span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：假设保存了三个保存点 a,b,c，当回滚到 b 之后，将无法再回滚到 c，只能往前回滚到 a;</strong></p>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><h3 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h3><p>其实就相当于其他编程语言中的函数，把一些 sql 操作封装在一起，对外提供一个名字。使用名字就相当于调用了其中的 sql 操作，视图名也代表着内部 sql 操作得到的结果集。</p>
+<p>对表的一些操作如插入删除同样适用于视图，且会影响视图的来源表。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> 视图名</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line">操作<span class="number">1</span>,</span><br><span class="line">操作<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 方法一</span><br><span class="line">CREATE OR REPLACE VIEW 视图名 AS 操作...;</span><br><span class="line"></span><br><span class="line"># 方法二</span><br><span class="line">ALTER VIEW 视图名 AS 操作...;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除视图"><a href="#删除视图" class="headerlink" title="删除视图"></a>删除视图</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP VIEW 视图名1, 视图名2，视图名3;</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新视图"><a href="#更新视图" class="headerlink" title="更新视图"></a>更新视图</h3><p>具备以下特点的视图不允许更新：</p>
+<ol>
+<li>包含以下关键字的 sql 语句：分组函数、<code>DISTINCT</code>、<code>GROUP BY</code>、<code>HAVING</code> 、<code>UNION</code>。</li>
+<li>常量视图。</li>
+<li>SELECT 中包含子查询。</li>
+</ol>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ol>
+<li>系统变量<ul>
+<li>全局变量 GLOABL<ul>
+<li>每次启动都会重新为所有变量赋初始值，针对所有会话（连接）有效，但不能跨重启。</li>
+<li>需要跨重启要修改配置文件。</li>
+</ul>
+</li>
+<li>会话变量 SESSION(默认)<ul>
+<li>会话变量的修改仅针对当前连接有效，不影响其他的连接</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 1.查看所有全局变量</span><br><span class="line">SHOW GLOBAL VARIABLES;</span><br><span class="line"># 2.查看所有会话变量</span><br><span class="line">SHOW SESSION VARIABLES;</span><br><span class="line"># 3.查看指定的某个系统变量</span><br><span class="line">SHOW GLOBAL | SESSION VARIABLES LIKE &apos;%变量字段%&apos;;</span><br><span class="line"># 4.查看指定的系统变量, 用2个@@</span><br><span class="line">SELECT @@GLOBAL|SESSION.系统变量名;</span><br><span class="line"># 5.为某个系统变量赋值</span><br><span class="line">SET GLOBAL|SESSION.变量名=值;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>自定义变量<ul>
+<li>用户变量<ul>
+<li>用户变量仅在当前会话有效</li>
+</ul>
+</li>
+<li>局部变量<ul>
+<li>只能使用在 begin … end 中。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 用户变量</span><br><span class="line"># 1.声明并赋值变量、修改变量，用一个@</span><br><span class="line">SET @用户变量名=值;</span><br><span class="line"># 2.查看用户变量</span><br><span class="line">SELECT @用户变量名;</span><br><span class="line"># 3.使用 SELECT 字段名 INTO @用户变量名</span><br><span class="line">SELECT id INTO @user_id FROM student;</span><br><span class="line"></span><br><span class="line"># 局部变量</span><br><span class="line"># 1.声明、赋值</span><br><span class="line">DECLARE 局部变量名 数据类型;</span><br><span class="line">DECLARE 局部变量名 数据类型 DEFAULT 值;</span><br></pre></td></tr></table></figure>
+
+<h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><ol>
+<li><code>DELIMITER</code> 设置语句分隔符，默认是分号<code>;</code>。为了在命令行中语句末尾输入 <code>;</code> 不会被强制提前运行，所以需要将分隔符替换成其他符号，以使得可以连续输入多行分号结尾的语句，最后再一次性执行。</li>
+<li>存储过程的模式：<ul>
+<li><code>IN</code> ：输入的变量</li>
+<li><code>OUT</code>：返回值接受变量</li>
+<li><code>INOUT</code>：变量既可以输入，也可以带返回值</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 1.无参数的存储过程</span><br><span class="line">DELIMITER $ </span><br><span class="line">CREATE PROCEDURE 存储过程名()</span><br><span class="line">BEGIN</span><br><span class="line">	操作语句</span><br><span class="line">END $</span><br><span class="line"># 调用无参数的存储过程</span><br><span class="line">CALL 存储过程名();</span><br><span class="line"></span><br><span class="line"># 2.带 IN 模式的存储过程</span><br><span class="line">DELIMITER $</span><br><span class="line">CREATE PROCEDURE 存储过程名 (IN 局部变量名 变量类型, IN 局部变量名 变量类型, ...)</span><br><span class="line">BEGIN</span><br><span class="line">	-- 局部变量名和表的字段名可能有重名冲突，需要加上表的限定条件</span><br><span class="line">	-- 如，表名·字段名=局部变量名</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line"># 3.带 OUT 模式的存储过程</span><br><span class="line">SET @out_var;</span><br><span class="line">DELIMITER $</span><br><span class="line">CREATE PROCEDURE 存储过程名(IN 局部变量名 变量类型, OUT 用户变量名 变量类型)</span><br><span class="line">BEGIN</span><br><span class="line">	SELECT stu.name INTO @out_var</span><br><span class="line">	FROM student stu</span><br><span class="line">	WHERE stu.id=局部变量名;</span><br><span class="line">END $</span><br><span class="line">CALL 存储过程名(IN变量, @out_var)$</span><br><span class="line">SELECT @out_var;</span><br><span class="line"></span><br><span class="line"># 4.带 INOUT 模式的存储过程</span><br><span class="line">DELIMITER $</span><br><span class="line">SET @a=10$</span><br><span class="line">SET @b=20$</span><br><span class="line">CREATE PROCEDURE compute(INOUT a INT, INOUT b INT)</span><br><span class="line">BEGIN</span><br><span class="line">	SET a=2*a;</span><br><span class="line">	SET b=2*b;</span><br><span class="line">END $</span><br><span class="line">CALL compute(@a, @b)$</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>删除存储过程</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP PROCEDURE 存储过程名;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>查看存储过程信息</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SHOW CREATE PROCEDURE 存储过程名;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数-1"><a href="#函数-1" class="headerlink" title="函数"></a>函数</h2><p>函数的形式跟存储过程类型，但是函数<strong>有且仅有一个返回值</strong>。</p>
+<p>函数更适合做查询，存储过程做增删改查的操作。</p>
+<ol>
+<li><p>创建函数</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE FUNCTION 函数名(参数名 参数类型, ...) RETURNS 返回值类型</span><br><span class="line">BEGIN</span><br><span class="line">	...</span><br><span class="line">	RETURN 值;</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用函数</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT 函数名(参数列表);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看函数</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SHOW CREATE FUNCTION 函数名;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除函数</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP FUNCTION 函数名;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><ol>
+<li><p>WHILE，用于 begin … and 中</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">标签名:WHILE 循环条件</span><br><span class="line">DO</span><br><span class="line">	操作</span><br><span class="line">	# LEAVE 相当于 break，结束整个循环</span><br><span class="line">	# ITERATE 相当于 continue，开始下一轮循环</span><br><span class="line">END WHILE 标签名</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>REPEAT，先执行后判断，用于 begin … and 中</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">标签名:REPEAT</span><br><span class="line">	操作</span><br><span class="line">UNTIL 终止条件</span><br><span class="line">END REPEAT 标签名;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>LOOP，没有条件的死循环</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">标签名:LOOP</span><br><span class="line">	操作</span><br><span class="line">END LOOP 标签名;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ES6-Promise学习笔记</title>
+    <url>/2019/10/20/ES6-Promise%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>在面试的过程中有被问到关于 Promise 相关的问题，随着问题的深入我的回答也逐渐变得有些犹豫不定，发现了自身对于 Promise 仍然缺少一次彻底的了解，因此重新花了一天时间将 Promise 重新学习并记录下学习笔记。</p>
+<p>在这里感谢阮一峰老师的 《ECMAScript 6 入门》，帮助我更好地学习和理解 Promise 的特性。</p>
+<h3 id="Promise-的作用"><a href="#Promise-的作用" class="headerlink" title="Promise 的作用"></a>Promise 的作用</h3><p><code>Promise</code> 简单来说就是一个容器，里面保存某个未来才会结束的事件（通常是一个异步操作）的结果，它可以获取异步操作的消息。</p>
+<h3 id="Promise-的两个特点"><a href="#Promise-的两个特点" class="headerlink" title="Promise 的两个特点"></a>Promise 的两个特点</h3><ol>
+<li><p>对象的状态不受外界影响。<code>Promise</code> 对象代表一个异步操作，有三种状态：<code>pending</code>（进行中）、<code>fulfilled</code>（已成功）、<code>rejected</code>（已失败）。</p>
+<p> 只有异步操作的结果，可以决定当前是哪一种状态，一但状态发生改变，任何其他操作都无法改变这个状态。</p>
+</li>
+<li><p>一但状态改变，就不会再变，任何时候都能得到这个结果。<code>Promise</code> 对象的状态改变，只有两种可能：<code>pending</code> =&gt; <code>fulfilled</code> 和 <code>pending</code> =&gt; <code>rejected</code>。只要两种情况发生了，状态就凝固住了，一直保持这个结果。</p>
+</li>
+</ol>
+<p><strong>有了 Promise 对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。</strong></p>
+<h3 id="Promise-的缺点"><a href="#Promise-的缺点" class="headerlink" title="Promise 的缺点"></a>Promise 的缺点</h3><ol>
+<li>一但新建 <code>Promise</code> 对象就会立即执行，无法中途取消。</li>
+<li>如果不设置回调函数，<code>Promise</code> 内部抛出的错误，不会反应到外部。</li>
+</ol>
+<h3 id="Promise-基本用法"><a href="#Promise-基本用法" class="headerlink" title="Promise 基本用法"></a>Promise 基本用法</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (异步操作成功) &#123;</span><br><span class="line">        resolve(value);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'resolve 后的代码会继续执行.'</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        reject(error);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'reject 后面的代码会继续执行.'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">promise.then(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;...&#125;, reject =&gt; &#123;...&#125;)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p><code>resolve</code> 函数的作用是将 <code>Promise</code> 对象的状态从 <code>pending</code> =&gt; <code>resolved</code>，在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；</p>
+</li>
+<li><p><code>reject</code> 函数的作用是将 <code>Promise</code> 对象的状态从 <code>pending</code> =&gt; <code>rejected</code>，在异步操作失败时调用，并将报出的错误，作为参数传递出去。</p>
+</li>
+<li><p><code>reject</code> 函数的参数通常是 <code>Error</code> 对象的实例，表示抛出的错误。（其实，也可以在 <code>resolve</code> 函数中传递一个 <code>Error</code> 对象实例，对应的 <code>then</code> 方法中能接收到 <code>Error</code> 实例）</p>
+</li>
+<li><p><code>resolve</code> 函数的参数除了正常的值以外，还可能是另一个 <code>Promise</code> 实例。<strong>即一个异步操作的结果是返回另一个异步操作。</strong></p>
+<p> <em>假设此时有promise 实例：p1，p2。</em></p>
+<p> 情况一： <code>p2</code> 中 <code>resolve(p1)</code>，则 <code>p1</code> 的状态决定了 <code>p2</code> 的状态。即当 <code>p1</code> 的状态为 <code>resolved</code> 时，<code>p2</code> 为 <code>resolved</code>；<code>p1</code> 状态为 <code>rejected</code> 时，<code>p2</code> 为 <code>rejected</code>。然后决定调用 <code>then</code> 方法中的哪种情况。</p>
+<p> 情况二：<code>p2</code> 中 <code>reject(p1)</code>，则 <code>p1</code> 的状态无法影响 <code>p2</code> 的状态。即当 <code>p2</code> 将向 <code>rejected</code> 状态转变，而 <code>p1</code> 无论成为什么状态，都无法影响 <code>p2</code>。<code>p2</code> 将直接使用 <code>then()</code> 方法中的 <code>reject</code> 情况。</p>
+</li>
+</ol>
+<h3 id="Promise-prototype-then"><a href="#Promise-prototype-then" class="headerlink" title="Promise.prototype.then()"></a>Promise.prototype.then()</h3><p><strong><code>then()</code> 方法的作用就是为 Promise 实例添加状态改变时的回调函数。</strong></p>
+<p><code>then()</code> 方法接受两个回调函数作为参数：</p>
+<ol>
+<li>第一个回调函数是 <code>Promise</code> 对象状态变为 <code>resolved</code> 时调用；</li>
+<li>（可选）第二个回调函数是 <code>Promise</code> 对象状态变为 <code>rejected</code> 时调用；</li>
+</ol>
+<p><strong><code>then()</code>方法返回的是一个新的 Promise 实例（不是原来的 Promise 实例），可以采用链式写法。</strong></p>
+<p>对于 <code>then()</code> 方法返回的新的 <code>Promise</code> 实例，应该是来自默认调用 <code>Promise.resolve()</code> 产生的。</p>
+<p>当未指定任何参数时，产生的 <code>Promise</code> 实例的值为 <code>undefined</code>。（<code>Promise.reject()</code> 无参数时产生的实例的值也为 <code>undefined</code>）</p>
+<p><code>then()</code> 方法不需要显式声明 <code>return</code> 也能默认返回一个值为 <code>undefined</code> 的 <code>Promise</code> 实例。或者显式声明 <code>return val</code>，将自动转换为一个 <code>Promise</code> 实例以返回。</p>
+<p><strong>当一个 Promise 对象上定义了多个 then() 方法，那么这些 then() 方法在事件循环时，将一次性从头到尾进行调用，而不会被中途打断。</strong></p>
+<p>（即如果同时有一个 <code>setTimeout</code> 和 一个定义了多个 <code>then()</code> 方法的 Promise 对象，那么多个 <code>then()</code> 方法将一次性从头到尾执行完，而不会被 <code>setTimeout</code> 打断）。</p>
+<h3 id="Promise-prototype-catch"><a href="#Promise-prototype-catch" class="headerlink" title="Promise.prototype.catch()"></a>Promise.prototype.catch()</h3><p><code>catch()</code> 方法相当于 <code>.then(null, reject =&gt; {...})</code> 或 <code>.then(undefined, reject =&gt; {...})</code>，用于处理 Promise 对象内部抛出的错误。</p>
+<p>Promise 对象内部直接 <code>throw new Error(...)</code> 和 <code>reject(...)</code> 效果是一样的，即都会把 Promise 对象的状态变成 <code>rejected</code>。</p>
+<p>所以需要对跟在其后面的 <code>.then()</code> 方法中的 <code>reject()</code> 回调或者 <code>.catch()</code> 方法进行错误的处理。</p>
+<p><strong>当 Promise 状态已经变成 resolved，再抛出错误是无效的，不会被捕获，等于没有抛出。</strong></p>
+<p>因为前面说了，<code>Promise</code> 内部抛出错误等同于设置状态为 <code>rejected</code>，而 Promise 实例状态已经先变成了 <code>resolved</code>，根据 <code>Promise</code> 的特性，状态一但被确定（即从 <code>pending =&gt; resolved</code> 或 <code>pending =&gt; rejected</code>）将保持不变，无法更改。</p>
+<p><strong>Promise 对象的错误具有冒泡性质，会一直向后传递，直到被捕获为止。</strong></p>
+<p>使用建议：一般来说，不要在 <code>then()</code> 方法中定义 <code>rejected</code> 状态的回调函数，即 <code>then()</code> 方法的第二个参数，应该使用 <code>catch()</code> 方法。因为使用 <code>catch()</code> 方法可以捕获 <code>then()</code> 方法执行中的错误，也更接近同步写法 <code>(try / catch)</code>。</p>
+<p><strong>如果没有使用 catch() 方法指定错误处理的回调函数，Promise 对象抛出的错误不会传递到外层代码，即不会有任何反应。</strong></p>
+<p>如果 Promise 对象设置了 <code>catch()</code> 方法，但是 Promise 对象没有抛出错误，则会跳过 <code>catch()</code> 方法。对于 <code>catch()</code> 方法后面的其他回调函数报错，则与 <code>catch()</code> 方法无关。</p>
+<p><strong><code>catch()</code> 方法返回的还是一个 Promise 对象，因此后面还可以接着用 <code>then()</code> 方法。</strong></p>
+<h3 id="Promise-prototype-finally"><a href="#Promise-prototype-finally" class="headerlink" title="Promise.prototype.finally()"></a>Promise.prototype.finally()</h3><p><strong><code>finally()</code> 方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。</strong></p>
+<p><code>finally()</code> 方法的回调函数不接受任何参数，这表明 <code>finally()</code> 方法中的操作，应该是与状态无关的，不依赖于 <code>Promise</code> 的执行结果。</p>
+<h3 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all()"></a>Promise.all()</h3><p><code>Promise.all()</code> 方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。</p>
+<p><code>Promise.all()</code> 方法中的参数有两种情况：</p>
+<ol>
+<li><p><strong>数组</strong>作为参数，<code>Promise.all([p1, p2, p3, ...])</code>。</p>
+<p> 如果数组中的元素不是 Promise 实例，则使用 <code>Promise.resolve()</code> 方法，将参数转化为 Promise 实例，再进一步处理。</p>
+</li>
+<li><p><strong>不是数组</strong>，但有 <strong>Iterator</strong> 接口，且返回的每个成员都是 Promise 实例。</p>
+</li>
+</ol>
+<p><code>Promise.all()</code> 方法的返回值有两种情况：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> p = <span class="built_in">Promise</span>.all([p1, p2, p3])</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>当 <code>p1, p2, p3</code> 的状态<strong>全为</strong> <code>resolved</code> 时，<code>p</code> 的状态才会成为 <code>resolved</code>。此时 <code>p1, p2, p3</code> 的返回值组成一个<strong>数组</strong>，传递给 <code>p</code> 的回调函数。</p>
+</li>
+<li><p>当 <code>p1, p2, p3</code> 之中有一个被 <code>rejected</code>，<code>p</code> 的状态就变成 <code>rejected</code>，将第一个被 <code>rejected</code> 的实例的返回值传递给 <code>p</code> 的回调函数。</p>
+</li>
+</ol>
+<p>当作为参数的 Promise 实例，自己定义了 <code>catch()</code> 方法，那么当它变成 <code>rejected</code> 状态时，将调用自己定义的 <code>catch()</code> 方法，并不会触发 <code>Promise.all()</code> 的 <code>catch()</code> 方法。</p>
+<p><code>catch()</code> 方法处理后，将返回一个状态为 <code>resolved</code> 的新 Promise 实例，所以 <code>Promise.all().then()</code> 将能接收到一个整体状态为 <code>resolved</code> 的实例组数，并执行回调函数，而不是当做出错情况处理。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  resolve(<span class="string">'hello'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">result</span> =&gt;</span> result)</span><br><span class="line">.catch(<span class="function"><span class="params">e</span> =&gt;</span> e);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'报错了'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">result</span> =&gt;</span> result)</span><br><span class="line">.catch(<span class="function"><span class="params">e</span> =&gt;</span> e);</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.all([p1, p2])</span><br><span class="line">.then(<span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result))</span><br><span class="line">.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="built_in">console</span>.log(e));</span><br><span class="line"><span class="comment">// ["hello", Error: 报错了]</span></span><br></pre></td></tr></table></figure>
+
+<p>如果参数 Promise 实例没有自己定义 <code>catch()</code> 方法，则调用 <code>Promise.all()</code> 的 <code>catch()</code> 方法。</p>
+<p><strong>需要注意的是，如果 Promise 实例自己定义了一系列的 then() 和 catch() 方法，那么 Promise.all() 得到的结果，就应该是 Promise 实例经过自己定义的各种回调函数后，返回的结果。</strong></p>
+<p>换句话说，不仅仅是出错时调用自身定义的 <code>catch()</code> 方法返回新的 <code>Promise</code> 实例，在没有出错时也会经过自身定义的 <code>then()</code> 方法返回新的 Promise 实例。</p>
+<p><code>Promise.all()</code> 参数数组中得到 Promise 实例，是已经完成实例全部自身定义的回调函数后的新实例。</p>
+<h3 id="Promise-race"><a href="#Promise-race" class="headerlink" title="Promise.race()"></a>Promise.race()</h3><p><code>Promise.race()</code> 方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> p = <span class="built_in">Promise</span>.race([p1, p2, p3])</span><br></pre></td></tr></table></figure>
+
+<p><strong>只要 p1, p2, p3 之中有一个实例率先改变状态，p 的状态就跟着改变。</strong></p>
+<p><strong>那个率先改变的 Promise 实例的返回值，就传递给 p 的回调函数。</strong></p>
+<p>这里的 Promise 实例的返回值跟 Promise.all() 中实例返回值的情况一样，是经过实例自身定义的各种回调函数处理后的最终 Promise 实例。</p>
+<p>如果 Promise.race() 的参数不是 Promise 实例，就会调用 Promise.resolve() 方法，将参数转为 Promise 实例，再进一步处理。</p>
+<h3 id="Promise-allSettled-ES2020"><a href="#Promise-allSettled-ES2020" class="headerlink" title="Promise.allSettled()  [ES2020]"></a>Promise.allSettled()  [ES2020]</h3><p><code>Promise.allSettled()</code> 方法接收一组 Promise 实例作为参数，包装成一个新的 Promise 实例。（目前仅在 Chrome 浏览器上可以使用，当前版本77.0.3865.120）</p>
+<p><code>Promise.allSettled()</code> 方法的作用是，等待参数中的<strong>所有</strong> Promise 实例<strong>都</strong>确定状态后 (<code>resolved</code> 或 <code>rejected</code>)，再执行 <code>Promise.allSettled()</code> 定义的回调函数。</p>
+<p><code>Promise.allSettled()</code> 方法返回一个新的 Promise 实例，状态总是 <code>fulfilled</code>，不会变成 rejected。</p>
+<p>变成 <code>fulfilled</code> 后， Promise 的监听函数接收到的参数是一个数组，每个成员对应传入 <code>Promise.allSettled()</code> 的 Promise 实例。形式如</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">    <span class="number">0</span>: &#123;<span class="attr">status</span>: <span class="string">"fulfilled"</span>, <span class="attr">value</span>: <span class="string">"p1 done"</span>&#125;</span><br><span class="line">    <span class="number">1</span>: &#123;<span class="attr">status</span>: <span class="string">"fulfilled"</span>, <span class="attr">value</span>: <span class="string">"p2 done"</span>&#125;</span><br><span class="line">    <span class="number">2</span>: &#123;<span class="attr">status</span>: <span class="string">"fulfilled"</span>, <span class="attr">value</span>: <span class="string">"p3 done"</span>&#125;</span><br><span class="line">    <span class="number">3</span>: &#123;<span class="attr">status</span>: <span class="string">"rejected"</span>, <span class="attr">reason</span>: <span class="string">"p4 done"</span>&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>每个对象对应 Promise 实例，都有 <code>status</code> 属性，值只能是字符串 <code>fulfilled</code> 或 <code>rejected</code>。</p>
+<p>为 <code>fulfilled</code> 时，对象有 <code>value</code> 属性。为 <code>rejected</code> 时，对象有 <code>reason</code> 属性。</p>
+<p><strong>个人使用中发现，Promise.allSettled() 监听函数接收到的数组，其中的对象的 status 取决于该对象对应的 Promise 实例第一次状态，而不是经过 then() 或 catch() 返回的新 Promise() 实例的状态。</strong></p>
+<h3 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve()"></a>Promise.resolve()</h3><p><code>Promise.resolve()</code> 方法可以用于得到一个状态为 <code>resolved</code> 的 Promise 实例。</p>
+<p><code>Promise.resolve()</code> 在本轮<strong>事件循环</strong>末尾时执行。</p>
+<p><code>Promise.resolve()</code> 方法的参数有四种情况：</p>
+<ol>
+<li><p><strong>参数是一个 Promise 实例</strong></p>
+<p> 不做任何修改，原封不动返回这个实例。</p>
+</li>
+<li><p><strong>参数是具有 then() 方法的对象</strong> (即对象中有名为 then 的方法)</p>
+<p> 将这个对象转为 Promise 对象，然后立即执行 <code>then()</code> 方法。</p>
+</li>
+<li><p><strong>参数是其他值</strong></p>
+<p> 返回一个新的 Promise 实例，状态为 <code>resolved</code>，值为 <code>“其他值”</code>。</p>
+</li>
+<li><p><strong>不带任何参数</strong></p>
+<p> 返回一个新的 Promise 实例，状态为 <code>resolved</code>，值为 <code>undefined</code>。</p>
+</li>
+</ol>
+<h3 id="Promise-reject"><a href="#Promise-reject" class="headerlink" title="Promise.reject()"></a>Promise.reject()</h3><p><code>Promise.reject(reason)</code> 方法返回一个新的 Promise 实例，该实例的状态为 <code>rejected</code> 。</p>
+<p><code>Promise.reject()</code> 方法的参数，会<strong>原封不动</strong>地作为 <code>reject</code> 的理由，变成后续方法的参数。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> p = <span class="built_in">Promise</span>.reject(<span class="string">'出错了'</span>)</span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="keyword">const</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> reject(<span class="string">'出错了'</span>))</span><br><span class="line"></span><br><span class="line">p.then(<span class="literal">null</span>, <span class="function"><span class="keyword">function</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(s)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>变量提升，别再踩坑了！</title>
+    <url>/2019/10/17/%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87%EF%BC%8C%E5%88%AB%E5%86%8D%E8%B8%A9%E5%9D%91%E4%BA%86%EF%BC%81/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在第一次接触到<strong>“变量提升”（Hoisting）</strong>这个概念之前，我曾以为 JavaScript 的世界是简单美好的，没有错综复杂的执行顺序（人眼目测运行过程）。后来了解到<strong>“变量提升”</strong>对于程序运行可能会出现预期之外的结果，从此对于变量的声明和使用开始变得小心翼翼。正常的编程过程中很少有主动去犯<strong>“变量先使用后声明”</strong>的低级错误，然后在2019-10-16这一天，一次笔试过程中，我还是一不留神踩了大坑，主要还是之前对这个概念的理解不够深入，借此机会重新深入了解后，写下这篇博客。</p>
+<h3 id="先挖个坑"><a href="#先挖个坑" class="headerlink" title="先挖个坑"></a>先挖个坑</h3><p>我遇到的笔试题，大致是这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(test)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">test</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(test)</span><br><span class="line">    <span class="comment">// ... 其他内容</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> test = <span class="number">123</span></span><br></pre></td></tr></table></figure>
+
+<p>你能说出它的运行结果吗？</p>
+<p>当时看到这里我不禁会心一笑，回想起在 MDN 上了解变量提升时的一句话（后文揭示），写下了 <strong><u>报错</u></strong> 作为答案（后经查证我错了）。然而事情哪有那么简单？</p>
+<h3 id="变量提升的本质"><a href="#变量提升的本质" class="headerlink" title="变量提升的本质"></a>变量提升的本质</h3><p>从字面上理解，变量提升的重点在于“提升”二字。提升到哪去？</p>
+<blockquote>
+<p> 答：提升到当前作用域的最顶部！</p>
+</blockquote>
+<h5 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="keyword">var</span> foo = <span class="number">123</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'function foo.'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(bar);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'function bar.'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> bar = <span class="number">456</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'function bar.'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(bar);</span><br></pre></td></tr></table></figure>
+
+<p>运行得到的结果是：</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g80ilehghfj30rm07wmxz.jpg" alt="image-20191016235210164"></p>
+<h5 id="示例代码的本质"><a href="#示例代码的本质" class="headerlink" title="示例代码的本质"></a>示例代码的本质</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 变量提升，变量默认被先声明（函数声明+赋值），然后置于作用域的最顶部</span></span><br><span class="line"><span class="keyword">var</span> foo;</span><br><span class="line"><span class="keyword">var</span> bar;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;...&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>)</span>&#123;...&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 非变量和函数声明的其他代码保持原本的顺序</span></span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line">foo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(bar);</span><br><span class="line"></span><br><span class="line">bar = <span class="number">456</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(bar);</span><br></pre></td></tr></table></figure>
+
+<p>经过梳理后的代码顺序就不难理解如何得出上图中的结果了，读者可以仔细对比一下。</p>
+<h3 id="变量和函数提升后顺序"><a href="#变量和函数提升后顺序" class="headerlink" title="变量和函数提升后顺序"></a>变量和函数提升后顺序</h3><blockquote>
+<p>作用域中变量和函数都会被提升，但变量声明整体在前，函数声明赋值整体在后，也正如上面梳理后的代码示例所示。</p>
+</blockquote>
+<h3 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h3><p>本文开篇时笔者说过，在 MDN 上了解变量提升，里面有一句话让我印象深刻。也正因为这句话，让我对于变量提升的理解出现了严重偏差，这也是我做错笔试题的原因。如图所示：</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g80imah610j311a02gaaj.jpg" alt="image-20191017000936368"></p>
+<p>这句话是否可以理解为函数声明整体的位置在变量声明整体的上方？</p>
+<p>在这里，我从仅对自身负责的角度讲，<strong>“函数会被提升到更靠前的位置”</strong>的表述明显是不对。如果函数声明整体位于变量声明<strong>之前</strong>，显然是无法得到示例代码中的运行结果。</p>
+<p>而我坚定地写下答案—<strong>报错</strong>时，注定此题已丢分~~😭</p>
+<p>看到这里，其实读者已经可以按照本文给出的变量提升本质，自行运算笔试题答案。</p>
+<h3 id="再说一句"><a href="#再说一句" class="headerlink" title="再说一句"></a>再说一句</h3><p>还是 ES6 好啊，<code>let</code> <code>const</code> 引入也带来了<strong>“暂时性死区”</strong>这个概念，就从语言层面约束了“变量和函数必须先声明再使用”。</p>
+<p>经过本次笔试经历能更正自己对于此前变量提升的错误理解，跟一道普通的笔试题比起无疑是更大的收获，对变量提升的理解也更加深入了，以后再碰到变量提升的大坑就可以跟它 say goodbye~。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>EasyWord—趣背单词项目介绍</title>
+    <url>/2019/10/05/EasyWord%E2%80%94%E8%B6%A3%E8%83%8C%E5%8D%95%E8%AF%8D%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h5 id="一、项目名称"><a href="#一、项目名称" class="headerlink" title="一、项目名称"></a>一、项目名称</h5><p><a href="http://47.98.43.70/" target="_blank" rel="noopener">EasyWord-趣背单词</a></p>
+<h5 id="二、项目起因"><a href="#二、项目起因" class="headerlink" title="二、项目起因"></a>二、项目起因</h5><p>这是一款基于自身需求开发的 Web 应用，旨在解决 PC 端没有合适的<strong>单词复习应用</strong>，只能依赖移动端 APP 的需求。起步阶段，本应用能实现“增、删、改、查”等基础功能，并且在此基础上增加美观和趣味的功能，让用户保持背单词的乐趣和热情。</p>
+<h5 id="三、技术组合"><a href="#三、技术组合" class="headerlink" title="三、技术组合"></a>三、技术组合</h5><ol>
+<li>前端：Vue.js + vue-router + ElementUI</li>
+<li>后端：Node.js (Express.js) + MongoDB</li>
+<li>服务器及系统：Vultr、 Ubuntu 18.04  x64</li>
+</ol>
+<h5 id="三、功能模块"><a href="#三、功能模块" class="headerlink" title="三、功能模块"></a>三、功能模块</h5><p>目前的趣背单词模块功能主要分为“三大模块”和“六大功能”（后续会完善和增加新模块 / 功能）：</p>
+<ul>
+<li>添加单词（添加模块）<ul>
+<li>单个输入</li>
+<li>一次性输入</li>
+</ul>
+</li>
+<li>查询单词（查询模块）<ul>
+<li>选日期查询</li>
+<li>按字母查询</li>
+</ul>
+</li>
+<li>复习单词（复习模块）<ul>
+<li>复习卡片</li>
+<li>弹幕挑战</li>
+</ul>
+</li>
+</ul>
+<h5 id="四、模块-功能介绍"><a href="#四、模块-功能介绍" class="headerlink" title="四、模块 / 功能介绍"></a>四、模块 / 功能介绍</h5><ol>
+<li><p><strong>添加单词</strong></p>
+<p> 单个输入：</p>
+<ol>
+<li><p>在上方输入框中输入待添加单词：</p>
+<ul>
+<li>正确输入英文字母，则可以添加入词库中；</li>
+<li>输入非英文字母，通过正则表达式检测并阻止录入词库；</li>
+<li>添加成功返回成功提示，添加失败返回错误提示。</li>
+</ul>
+</li>
+<li><p>在下方增设“随机单词”的单词轮播，方便用户空闲之余，可以回顾单词。</p>
+<p>一次性输入：</p>
+</li>
+<li><p>可以在文本框中将从外界复制的多个单词文本(已换行)，一次性录入词库中；</p>
+</li>
+<li><p>可以对以输入文本框中的单词一键清空。</p>
+</li>
+<li><p>添加成功返回成功提示，添加失败，返回错误提示。</p>
+</li>
+</ol>
+</li>
+<li><p><strong>查询单词</strong></p>
+<p> 按日期查询：</p>
+<ol>
+<li><p>可以通过选择日历组件中的日期范围，查询该范围内录入的单词；</p>
+</li>
+<li><p>可以通过手动输入精确的日期 + 时间范围，查询该范围内录入的单词；</p>
+</li>
+<li><p>成功查询的结果返回单词列表和成功提示，查询失败则返回失败提示。</p>
+<p>按字母查询：</p>
+</li>
+<li><p>可以通过手动输入单词包含的字母进行模糊查询；</p>
+</li>
+<li><p>可以对不确定部分采用空格替代。</p>
+</li>
+</ol>
+</li>
+<li><p><strong>复习单词</strong></p>
+<p> 复习卡片：</p>
+<ol>
+<li><p>默认展示最近 3 天录入的单词，个性化的卡片颜色让复习单词更轻松愉悦；</p>
+</li>
+<li><p>可以手动选择要展示的单词的日期范围（1-14 天）。</p>
+<p>弹幕挑战：</p>
+</li>
+<li><p>弹幕中包含词库中的随机单词，方便用户复习单词时“一目十行”，增加趣味性；</p>
+</li>
+<li><p>在挑战结束后给出多个选项，需用户选出本次挑战出现过的单词进行验证，间接考验用户对单词的熟悉情况和加深单词记忆。</p>
+</li>
+<li><p>可以手动结束挑战并重新开始。</p>
+</li>
+</ol>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>JavasScript类型转换，你掌握了吗？-下</title>
+    <url>/2019/10/04/JavasScript%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%EF%BC%8C%E4%BD%A0%E6%8E%8C%E6%8F%A1%E4%BA%86%E5%90%97%EF%BC%9F-%E4%B8%8B/</url>
+    <content><![CDATA[<p>本文接着补充 JavaScript 类型转换的上篇的内容，主要讲 <code>==</code> 运算符在进行比较时的规则。接着本文和上篇的内容，应该就可以接着上篇挖的坑——为什么 <code>[] == ![]</code>了。</p>
+<h4 id="运算符的规律性"><a href="#运算符的规律性" class="headerlink" title="== 运算符的规律性"></a>== 运算符的规律性</h4><h5 id="一、Type-x-与-Type-y-相同"><a href="#一、Type-x-与-Type-y-相同" class="headerlink" title="一、Type(x) 与 Type(y) 相同"></a>一、Type(x) 与 Type(y) 相同</h5><ol>
+<li>Typex(x) 为 Undefinded，返回  true。</li>
+<li>Type(x) 为 Null，返回 true。</li>
+<li>Type(x) 为 Number，则<ol>
+<li>若 x 为 NaN，返回 false。</li>
+<li>若 y 为 NaN，返回 false。</li>
+<li>x 与 y 是非 NaN 的相同数值，返回 true。</li>
+<li>x 为 ±0，且 y 为 ±0，返回 true。</li>
+</ol>
+</li>
+<li>若 Type(x) 为 String，当 x 和 y 的字符序列完全一致时（长度相等，字符位置相同），返回 true，否则返回 false。</li>
+<li>若 Type(x) 为 Boolean，当 x 和 y 同时为 true，或 同时为 false 时，返回 true，否则返回 false。</li>
+<li>当 x 和 y 指向同一个对象时，返回 true，否则返回 false。</li>
+</ol>
+<h5 id="二、Type-x-与-Type-y-不同"><a href="#二、Type-x-与-Type-y-不同" class="headerlink" title="二、Type(x) 与 Type(y) 不同"></a>二、Type(x) 与 Type(y) 不同</h5><ol>
+<li>x 为 null，y 为 undefined，返回 true。</li>
+<li>x 为 undefined，y 为 null，返回 true。</li>
+<li>Type(x) 为 Number，Type(y) 为 String，则返回 x == ToNumber(y) 的结果。</li>
+<li>Type(x) 为 String，Type(y) 为 Number，则返回 ToNumber(x) == y 的结果。</li>
+<li>Type(x) 为 Boolean，则返回 toNumber(x) == y 的结果。</li>
+<li>Type(y) 为 Boolean，则返回 x == ToNumber(y) 的结果。</li>
+<li>Type(x) 为 Number 或 String ，Type(y) 为 Object，则返回 x == ToPrimitive(y) 的结果。</li>
+<li>Type(x) 为 Object，Type(y) 为 Number或 String，则返回 ToPrimitive(x) == y 的结果。</li>
+</ol>
+<h3 id="填坑"><a href="#填坑" class="headerlink" title="填坑"></a>填坑</h3><p>上篇介绍的 <code>ToPrimitive()</code>、<code>ToNumber()</code>、<code>ToString()</code> 只是了解到类型转换的内部过程，对于 <code>==</code> 规则决定了要转换成什么类型。</p>
+<p>回到我们上篇提出的问题：<code>[] == ![]</code>结果为 <code>true</code> 是怎么来的？</p>
+<blockquote>
+<ol>
+<li>首先，按照运算符的优先级，<code>!</code> 会先进行运算。对于对象类型来说，得到转换成布尔值永远是 <code>true</code>。则 <code>![]</code> 转换得到 <code>false</code>。现在问题变成了 <code>[] == false</code>。</li>
+<li>根据上面的规则 5/6 ，将 <code>Boolean</code> 类型转换成 <code>Number</code>。现在问题变成了 <code>[] == 0</code>。</li>
+<li>再根据规则 7/8，将 <code>[]</code> 转换得到 <code>&#39;&#39;</code>。现在问题变成了 <code>&#39;&#39; == 0</code>。</li>
+<li>再由规则 3/4，<code>&#39;&#39;</code> 转换得到 <code>0</code>。现在问题变成了 <code>0 == 0</code>。</li>
+<li>结果就显而易见了，结果为 <code>true</code>。</li>
+</ol>
+</blockquote>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>两篇博客的总结也是对自己学习成果的肯定，激励自己能保持学习的热情和动力。如果有不足恳请指出，谢谢你的阅读。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JavasScript类型转换，你掌握了吗？-上</title>
+    <url>/2019/10/01/JavasScript%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%EF%BC%8C%E4%BD%A0%E6%8E%8C%E6%8F%A1%E4%BA%86%E5%90%97%EF%BC%9F-%E4%B8%8A/</url>
+    <content><![CDATA[<p>众所周知，JavaScript 是一门脚本语言。相比较 C、Java等强类型语言在代码编写时便可确定变量类型，且编译阶段有编译器进行检查和优化，而JavaScript 中的变量是只有在运行阶段才能确定类型。其中在某些情况下，如判断变量是否相等，会存在隐式类型转换，导致预期之外的结果出现。所以，我们有必要弄清楚类型转换的规则，减少 bug 的出现，提高编程“幸福感” 🥰。</p>
+<h3 id="先挖个坑"><a href="#先挖个坑" class="headerlink" title="先挖个坑"></a>先挖个坑</h3><p>给出题目：你能说出，<code>[] == ![]</code> 的结果吗？</p>
+<p>答案：<code>true</code>。不知道答案有没有出乎你的预料，其中包含着多种隐式类型转换，如果你对此还不太了解的话，希望笔者下面的讲解能对你有帮助。</p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>JavaScript 中的数据类型可以分为 <strong>基本数据类型</strong> 和 <strong>引用数据类型</strong> 两种。</p>
+<p><em>注：本文暂不考虑 Symbol 类型。</em></p>
+<h5 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h5><p>Number、String、Boolean、Undefined、Null</p>
+<h5 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h5><p>Object、Array、Function 等</p>
+<h3 id="转换规则"><a href="#转换规则" class="headerlink" title="转换规则"></a>转换规则</h3><h5 id="一、-转换形式"><a href="#一、-转换形式" class="headerlink" title="一、 转换形式"></a>一、 转换形式</h5><p>隐式转换中主要有三种类型转换：</p>
+<ol>
+<li>将值转化为原始值， ToPrimitive()。</li>
+<li>将值转化为数字，ToNumber()。</li>
+<li>将值转化为字符串，ToString()。</li>
+</ol>
+<h5 id="二、转换基础"><a href="#二、转换基础" class="headerlink" title="二、转换基础"></a>二、转换基础</h5><p><strong>JavsScript 引擎内部的抽象操作有这样的签名： ToPrimitive(input, PreferredType?)</strong></p>
+<blockquote>
+<p>input 是要转换的值，PreferredType 是可选参数，可以是 Number 或 String 类型。</p>
+<p><strong>PreferredType 对于 Date 类型默认使用 String，其他类型使用 Number。</strong></p>
+<p>转化后的结果不一定是这个参数设置的类型，但结果一定是原始值或者报错。</p>
+</blockquote>
+<p><strong>当 PreferredType 为 Number，对输入的值进行以下操作：</strong></p>
+<blockquote>
+<ol>
+<li>如果输入的是原始值，则直接返回它。否则，进行下一步；</li>
+<li>如果输入的是对象，则调用对象的 valueOf() 方法。如果结果是原始值则返回，否则进行下一步；</li>
+<li>调用对象的 toString() 方法。如果结果是原始值则返回，否则抛出 TypeError 异常。</li>
+</ol>
+</blockquote>
+<p><strong>当 PreferredType 为 String ，对输入的值做以下操作：</strong></p>
+<blockquote>
+<ol>
+<li>如果输入的是原始值，则直接返回它。否则，进行下一步；</li>
+<li>调用这个对象的 toString() 方法。如果结果是原始值则返回，否则进行下一步；</li>
+<li>调用这个对象的 valueOf() 方法。如果结果是原始值则返回，否则抛出 TypeError 异常。</li>
+</ol>
+</blockquote>
+<h5 id="三、转换结果"><a href="#三、转换结果" class="headerlink" title="三、转换结果"></a>三、转换结果</h5><p><strong>使用 ToNumber() 将值转化为数字：</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数字</td>
+<td>直接返回，无转换</td>
+</tr>
+<tr>
+<td>字符串</td>
+<td>纯数字字符串解析为数字，否则返回 NaN</td>
+</tr>
+<tr>
+<td>null</td>
+<td>0</td>
+</tr>
+<tr>
+<td>undefined</td>
+<td>NaN</td>
+</tr>
+<tr>
+<td>对象</td>
+<td>先进行 ToPrimitive(obj, Number)转换得到原始值，再进行ToNumber转换为数字</td>
+</tr>
+</tbody></table>
+<p><strong>使用 ToString() 将值转化为字符串：</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数字</td>
+<td>数字字符串</td>
+</tr>
+<tr>
+<td>字符串</td>
+<td>直接返回，无转换</td>
+</tr>
+<tr>
+<td>null</td>
+<td>‘null’</td>
+</tr>
+<tr>
+<td>undefined</td>
+<td>‘undefined’</td>
+</tr>
+<tr>
+<td>对象</td>
+<td>先进行 ToPrimitive(obj, String)转换得到原始值，再进行ToString转换为字符串</td>
+</tr>
+</tbody></table>
+<h3 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h3><h5 id="例子一：-？"><a href="#例子一：-？" class="headerlink" title="例子一：{} + {} = ？"></a>例子一：{} + {} = ？</h5><blockquote>
+<ol>
+<li>首先这是一个加法操作，需要转换为原始值才能进行运算；</li>
+<li>因为 {} 并不是原始值，进行 ToPrimitive 转换，默认 PreferredType 为 Number；</li>
+<li>首先执行 <code>valueOf</code> 方法，得到的是 {} 本身；</li>
+<li>接着调用 <code>toString</code> 方法，得到 <code>[object Object]</code>；</li>
+<li>同理右边 {}，得到 <code>[object Object]</code>；</li>
+<li>最终结果 <code>[object Object]</code> + <code>[object Object]</code> = <code>[object Object][object Object]</code></li>
+</ol>
+</blockquote>
+<h5 id="例子二：1-2-3-4"><a href="#例子二：1-2-3-4" class="headerlink" title="例子二：1 + [2, 3, 4] = ?"></a>例子二：1 + [2, 3, 4] = ?</h5><blockquote>
+<ol>
+<li>首先这是加法操作，需要转换为原始值才能进行运算；</li>
+<li>因为 [2, 3, 4] 不是原始值，进行 ToPrimitive 转换，默认 PreferredType 为 Number；</li>
+<li>首先执行 <code>valueOf</code> 方法，得到的是 [2, 3, 4] 本身；</li>
+<li>接着调用 <code>toString</code> 方法，得到 <code>2,3,4</code>；</li>
+<li>最终结果 <code>1</code> + <code>&#39;2,3,4&#39;</code> = <code>12,3,4</code>。 </li>
+</ol>
+</blockquote>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>经过上面的讲解和两个例题的练习，相信读者已经能对隐式类型转换有了很多了解。但对于文章开头挖的坑，前面讲解的原理暂时还不足以解释清楚转换过程，所以留到下篇文章进行补充。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+  </entry>
+</search>
