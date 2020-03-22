@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="HXJ&#39;s Blog">
 <meta property="og:description" content="获取帮助信息1234# 方式 1? &amp;lt;关键字&amp;gt;# 方式 2help &amp;lt;关键字&amp;gt;  展示所有数据库1SHOW databases;  使用指定数据库1USE database_name;  查看当前数据库1SELECT database();  查看数据库版本1SELECT version();  查看当前数据库的所有表1234# 方法1SHOW tables;-- 方法 2">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-21T23:51:02.731Z">
+<meta property="og:updated_time" content="2020-03-22T03:47:19.879Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL学习笔记">
 <meta name="twitter:description" content="获取帮助信息1234# 方式 1? &amp;lt;关键字&amp;gt;# 方式 2help &amp;lt;关键字&amp;gt;  展示所有数据库1SHOW databases;  使用指定数据库1USE database_name;  查看当前数据库1SELECT database();  查看数据库版本1SELECT version();  查看当前数据库的所有表1234# 方法1SHOW tables;-- 方法 2">
@@ -378,7 +378,7 @@
 <h3 id="事务回滚"><a href="#事务回滚" class="headerlink" title="事务回滚"></a>事务回滚</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SET autocommit=0;</span><br><span class="line">START TRANSACTION;</span><br><span class="line">操作语句;</span><br><span class="line">SAVEPOINT a;</span><br><span class="line">操作语句;</span><br><span class="line">...</span><br><span class="line">ROLLBACK TO a; # 将操作回退到保存点 a 的位置</span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意：假设保存了三个保存点 a,b,c，当回滚到 b 之后，将无法再回滚到 c，只能往前回滚到 a;</strong></p>
-<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><h3 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h3><p>其实就相当于其他编程语言中的函数，把一些 sql 操作封装在一起，对外提供一个名字。使用名字就相当于调用了其中的 sql 操作，视图名也代表着内部 sql 操作得到的结果集。</p>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><h3 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h3><p>视图也代表着内部 sql 操作得到的结果集。</p>
 <p>对表的一些操作如插入删除同样适用于视图，且会影响视图的来源表。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> 视图名</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line">操作<span class="number">1</span>,</span><br><span class="line">操作<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
 

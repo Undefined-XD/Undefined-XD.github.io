@@ -15,7 +15,7 @@
 <meta property="og:description" content="基础概念术语： JVM：Java 虚拟机是 Java 程序的运行环境，不同的操作系统上有不同的 JVM，它们能够运行现有的 Java 程序。 JRE：Java 运行时环境，其中包含 JVM 和运行时所需要的核心类库等。 JDK：Java 开发工具，包含 JRE 和相关开发工具。  命令行窗口命令： Javac 是 Java 编译器，负责将写好的 xxx.java 源代码进行编译，得到 xxx.cl">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/Users/hxj/Documents/GitHub/hexo/Blog/source/_posts/image-20200310215114574.png">
-<meta property="og:updated_time" content="2020-03-21T23:54:00.293Z">
+<meta property="og:updated_time" content="2020-03-22T03:28:49.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java SE 学习笔记">
 <meta name="twitter:description" content="基础概念术语： JVM：Java 虚拟机是 Java 程序的运行环境，不同的操作系统上有不同的 JVM，它们能够运行现有的 Java 程序。 JRE：Java 运行时环境，其中包含 JVM 和运行时所需要的核心类库等。 JDK：Java 开发工具，包含 JRE 和相关开发工具。  命令行窗口命令： Javac 是 Java 编译器，负责将写好的 xxx.java 源代码进行编译，得到 xxx.cl">
@@ -509,7 +509,7 @@
 <li>线程意外终止：<code>run()</code>方法因为未捕获的异常导致线程终止；</li>
 <li>对某个线程的<code>Thread</code>实例调用<code>stop()</code>方法强制终止（强烈不推荐使用）。</li>
 </ul>
-<p>调用 <code>线程·join()</code> ，可以让一个线程等待指定线程结束后才开始执行。也可以使用 <code>线程·join(long n)</code>指定等待事件，超过时间后不再继续等待。</p>
+<p>调用 <code>线程·join()</code> ，可以让一个线程等待指定线程结束后才开始执行。也可以使用 <code>线程·join(long n)</code>指定等待时间，超过时间后不再继续等待。</p>
 <p>如果线程已经结束再调用 <code>线程·join()</code>  会立刻返回。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread tr = <span class="keyword">new</span> Thread();</span><br><span class="line">        tr.start();</span><br><span class="line">  </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            tr.join(); <span class="comment">// 主线程等待 tr 线程结束后才开始执行</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
