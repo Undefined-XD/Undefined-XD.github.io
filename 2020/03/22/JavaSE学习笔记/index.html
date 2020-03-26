@@ -9,15 +9,15 @@
     <meta name="description" content="基础概念术语： JVM：Java 虚拟机是 Java 程序的运行环境，不同的操作系统上有不同的 JVM，它们能够运行现有的 Java 程序。 JRE：Java 运行时环境，其中包含 JVM 和运行时所需要的核心类库等。 JDK：Java 开发工具，包含 JRE 和相关开发工具。  命令行窗口命令： Javac 是 Java 编译器，负责将写好的 xxx.java 源代码进行编译，得到 xxx.cl">
 <meta name="keywords" content="学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java SE 学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/03/22/Java-SE-学习笔记/index.html">
+<meta property="og:title" content="JavaSE学习笔记">
+<meta property="og:url" content="http://yoursite.com/2020/03/22/JavaSE学习笔记/index.html">
 <meta property="og:site_name" content="HXJ&#39;s Blog">
 <meta property="og:description" content="基础概念术语： JVM：Java 虚拟机是 Java 程序的运行环境，不同的操作系统上有不同的 JVM，它们能够运行现有的 Java 程序。 JRE：Java 运行时环境，其中包含 JVM 和运行时所需要的核心类库等。 JDK：Java 开发工具，包含 JRE 和相关开发工具。  命令行窗口命令： Javac 是 Java 编译器，负责将写好的 xxx.java 源代码进行编译，得到 xxx.cl">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/Users/hxj/Documents/GitHub/hexo/Blog/source/_posts/image-20200310215114574.png">
-<meta property="og:updated_time" content="2020-03-22T03:28:49.809Z">
+<meta property="og:updated_time" content="2020-03-26T05:08:14.307Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java SE 学习笔记">
+<meta name="twitter:title" content="JavaSE学习笔记">
 <meta name="twitter:description" content="基础概念术语： JVM：Java 虚拟机是 Java 程序的运行环境，不同的操作系统上有不同的 JVM，它们能够运行现有的 Java 程序。 JRE：Java 运行时环境，其中包含 JVM 和运行时所需要的核心类库等。 JDK：Java 开发工具，包含 JRE 和相关开发工具。  命令行窗口命令： Javac 是 Java 编译器，负责将写好的 xxx.java 源代码进行编译，得到 xxx.cl">
 <meta name="twitter:image" content="http://yoursite.com/Users/hxj/Documents/GitHub/hexo/Blog/source/_posts/image-20200310215114574.png">
     
@@ -39,7 +39,7 @@
         
     
     <!-- title -->
-    <title>Java SE 学习笔记</title>
+    <title>JavaSE学习笔记</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -76,6 +76,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/2020/03/26/Spring框架学习/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" href="/2020/03/21/MySQL学习笔记/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -90,16 +92,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/03/22/Java-SE-学习笔记/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&text=Java SE 学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&title=Java SE 学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&is_video=false&description=Java SE 学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Java SE 学习笔记&body=Check out this article: http://yoursite.com/2020/03/22/Java-SE-学习笔记/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&title=Java SE 学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&title=Java SE 学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&title=Java SE 学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&title=Java SE 学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&name=Java SE 学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/03/22/JavaSE学习笔记/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&text=JavaSE学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&title=JavaSE学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&is_video=false&description=JavaSE学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JavaSE学习笔记&body=Check out this article: http://yoursite.com/2020/03/22/JavaSE学习笔记/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&title=JavaSE学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&title=JavaSE学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&title=JavaSE学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&title=JavaSE学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&name=JavaSE学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -116,7 +118,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        Java SE 学习笔记
+        JavaSE学习笔记
     </h1>
 
 
@@ -662,16 +664,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/03/22/Java-SE-学习笔记/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&text=Java SE 学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&title=Java SE 学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&is_video=false&description=Java SE 学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Java SE 学习笔记&body=Check out this article: http://yoursite.com/2020/03/22/Java-SE-学习笔记/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&title=Java SE 学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&title=Java SE 学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&title=Java SE 学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&title=Java SE 学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/03/22/Java-SE-学习笔记/&name=Java SE 学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/03/22/JavaSE学习笔记/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&text=JavaSE学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&title=JavaSE学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&is_video=false&description=JavaSE学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JavaSE学习笔记&body=Check out this article: http://yoursite.com/2020/03/22/JavaSE学习笔记/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&title=JavaSE学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&title=JavaSE学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&title=JavaSE学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&title=JavaSE学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/03/22/JavaSE学习笔记/&name=JavaSE学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
